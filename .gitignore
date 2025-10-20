@@ -1,0 +1,35 @@
+# ==================== LaLiga Social - GitIgnore ====================
+
+# API Configuration (contiene API keys sensibles)
+# IMPORTANTE: Si ya subiste api-config.js a GitHub, debes:
+# 1. Eliminar el archivo del repositorio
+# 2. Crear un api-config.example.js sin la API key real
+assets/js/config/api-config.js
+
+# Node modules (si usas algún build tool en el futuro)
+node_modules/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build outputs (si usas build tools)
+dist/
+build/

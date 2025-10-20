@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "Read",
+      "MultiEdit",
+      "Glob",
+      "Grep",
+      "LS",
+      "WebSearch",
+      "WebFetch",
+      "Bash(npm *)",
+      "Bash(git *)",
+      "Bash(python *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  }
+}

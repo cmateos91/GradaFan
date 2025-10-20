@@ -1,0 +1,329 @@
+/* ==================== RESPONSIVE STYLES ==================== */
+/*
+ * Media queries para diferentes tamaños de pantalla
+ * Mobile-first approach
+ */
+
+/* ========== LARGE SCREENS (Desktop) ========== */
+/* Default styles are for desktop */
+
+/* ========== MEDIUM SCREENS (Tablets & Small Laptops) ========== */
+@media (max-width: 1024px) {
+
+    /* Container */
+    .container {
+        padding: 0 var(--spacing-lg);
+    }
+
+    /* Main Layout */
+    .main-container {
+        grid-template-columns: 250px 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    /* Hero */
+    .hero-content {
+        grid-template-columns: 1fr 300px;
+        gap: var(--spacing-xl);
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    /* News Grid */
+    .news-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+    }
+
+    /* Sidebar */
+    --sidebar-width: 250px;
+}
+
+/* ========== SMALL SCREENS (Tablets Portrait) ========== */
+@media (max-width: 768px) {
+
+    /* Typography */
+    h1 { font-size: var(--font-size-4xl); }
+    h2 { font-size: var(--font-size-3xl); }
+    h3 { font-size: var(--font-size-2xl); }
+
+    /* Navbar */
+    .navbar-menu {
+        display: none; /* Show mobile menu instead */
+    }
+
+    .navbar-user {
+        gap: var(--spacing-sm);
+    }
+
+    .user-points {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .points-value {
+        font-size: var(--font-size-sm);
+    }
+
+    /* Hero */
+    .hero {
+        min-height: auto;
+        padding: var(--spacing-4xl) 0;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    .hero-chat {
+        height: 400px;
+    }
+
+    .hero-stats {
+        gap: var(--spacing-lg);
+    }
+
+    .stat-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .main-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: static;
+        order: 2; /* Move sidebar below news feed on mobile */
+    }
+
+    .news-feed {
+        order: 1;
+    }
+
+    /* News Grid */
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    /* News Card - Disable 3D on mobile */
+    .news-card {
+        transform: none !important;
+    }
+
+    .news-card-inner {
+        transform: none !important;
+    }
+
+    /* Feed Header */
+    .feed-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .feed-filters {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-btn {
+        white-space: nowrap;
+    }
+
+    /* Community Section */
+    .community-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+    }
+
+    .stat-number {
+        font-size: var(--font-size-4xl);
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+}
+
+/* ========== EXTRA SMALL SCREENS (Mobile) ========== */
+@media (max-width: 480px) {
+
+    /* Container */
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+
+    /* Typography */
+    h1 { font-size: var(--font-size-3xl); }
+    h2 { font-size: var(--font-size-2xl); }
+
+    /* Navbar */
+    .navbar-brand .logo {
+        font-size: var(--font-size-lg);
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Hero */
+    .hero-title {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .hero-cta {
+        width: 100%;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .hero-chat {
+        height: 350px;
+    }
+
+    /* Buttons */
+    .btn-primary,
+    .btn-secondary {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: var(--font-size-sm);
+    }
+
+    /* News Card */
+    .news-card-content {
+        padding: var(--spacing-md);
+    }
+
+    .news-card-title {
+        font-size: var(--font-size-lg);
+    }
+
+    .news-card-stats {
+        flex-wrap: wrap;
+    }
+
+    /* Sidebar Widgets */
+    .sidebar-widget {
+        padding: var(--spacing-md);
+    }
+
+    /* Community */
+    .community-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    /* Chat Messages */
+    .chat-messages {
+        padding: var(--spacing-md);
+    }
+
+    .message-avatar {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* ========== LANDSCAPE MOBILE ========== */
+@media (max-height: 600px) and (orientation: landscape) {
+
+    .hero {
+        min-height: auto;
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .hero-content {
+        padding: var(--spacing-xl) 0;
+    }
+
+    .hero-chat {
+        height: 300px;
+    }
+}
+
+/* ========== HIGH DPI SCREENS ========== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Optimizations for retina displays */
+
+    .news-card-image img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* ========== DARK MODE SUPPORT ========== */
+@media (prefers-color-scheme: dark) {
+    /* Already in dark mode by default */
+    /* Light mode can be added with data-theme="light" */
+}
+
+/* ========== REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+
+    /* Disable all animations */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    /* Disable 3D transforms */
+    .news-card,
+    .news-card-inner {
+        transform: none !important;
+    }
+
+    /* Disable parallax */
+    .parallax-bg,
+    .parallax-element {
+        transform: none !important;
+    }
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+
+    /* Hide navigation and interactive elements */
+    .navbar,
+    .hero-chat,
+    .sidebar,
+    .chat-input-wrapper,
+    .btn-primary,
+    .btn-secondary,
+    .footer {
+        display: none !important;
+    }
+
+    /* Reset colors for print */
+    body {
+        background: white;
+        color: black;
+    }
+
+    .news-card {
+        border: 1px solid #000;
+        break-inside: avoid;
+    }
+}

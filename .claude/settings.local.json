@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree -L 3 -I 'node_modules|.git' --dirsfirst)",
+      "Bash(find assets/js -type f -name \"*.js\" -exec sh -c 'wc -l \"\"\"\"$1\"\"\"\"; echo \"\"\"\"$1\"\"\"\"' _ {})",
+      "Bash(paste - -)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
