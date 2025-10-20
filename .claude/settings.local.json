@@ -3,7 +3,10 @@
     "allow": [
       "Bash(tree -L 3 -I 'node_modules|.git' --dirsfirst)",
       "Bash(find assets/js -type f -name \"*.js\" -exec sh -c 'wc -l \"\"\"\"$1\"\"\"\"; echo \"\"\"\"$1\"\"\"\"' _ {})",
-      "Bash(paste - -)"
+      "Bash(paste - -)",
+      "Bash(git checkout -b refactor/phase1-remove-duplicates)",
+      "Bash(git add -A)",
+      "Bash(git commit -m \"refactor(cleanup): remove duplicate JavaScript and CSS files\n\n- Removed duplicate JS structure (assets/js/app.js, components/, config/, core/, data/, services/, utils/)\n- Kept only new architecture (assets/js/application/, infrastructure/, shared/)\n- Removed 8 duplicate CSS files in root (variables, base, responsive, effects, etc.)\n- Removed 2 obsolete CSS files with -old suffix\n- Result: ~10,000 lines of duplicate code eliminated\n\nBefore: 57 JS files, 24 CSS files\nAfter: 32 JS files (-44%), 14 CSS files (-42%)\n\nAll HTML files verified to use only new architecture paths.\")"
     ],
     "deny": [],
     "ask": []
