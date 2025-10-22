@@ -6,7 +6,7 @@ class DebateDetail {
         this.currentUser = {
             id: 1,
             name: "Usuario Actual",
-            avatar: "assets/img/avatar1.jpg"
+            avatar: "/assets/img/avatar1.jpg"
         };
 
         if (this.container && this.debateId) {
@@ -82,7 +82,7 @@ class DebateDetail {
                 <p class="debate-detail-description">${this.debate.description}</p>
                 <div class="debate-meta">
                     <div class="debate-author-info">
-                        <img src="${this.debate.author.avatar}" alt="${this.debate.author.name}" class="author-avatar-large" onerror="this.src='assets/img/default-avatar.svg'">
+                        <img src="${this.debate.author.avatar}" alt="${this.debate.author.name}" class="author-avatar-large" onerror="this.src='/assets/img/default-avatar.svg'">
                         <div>
                             <div class="author-name-large">${this.debate.author.name}</div>
                             <div class="debate-date">Creado ${this.getTimeAgo(this.debate.createdAt)}</div>
@@ -161,7 +161,7 @@ class DebateDetail {
                 <h3 class="comment-form-title">Añadir comentario</h3>
                 <form class="comment-form" id="commentForm">
                     <div class="comment-input-wrapper">
-                        <img src="${this.currentUser.avatar}" alt="${this.currentUser.name}" class="comment-user-avatar" onerror="this.src='assets/img/default-avatar.svg'">
+                        <img src="${this.currentUser.avatar}" alt="${this.currentUser.name}" class="comment-user-avatar" onerror="this.src='/assets/img/default-avatar.svg'">
                         <textarea
                             id="commentText"
                             class="comment-textarea"
@@ -208,7 +208,7 @@ class DebateDetail {
         return `
             <div class="comment-item" data-comment-id="${comment.id}">
                 <div class="comment-avatar">
-                    <img src="${comment.userAvatar}" alt="${comment.userName}" onerror="this.src='assets/img/default-avatar.svg'">
+                    <img src="${comment.userAvatar}" alt="${comment.userName}" onerror="this.src='/assets/img/default-avatar.svg'">
                 </div>
                 <div class="comment-content">
                     <div class="comment-header">
@@ -238,7 +238,7 @@ class DebateDetail {
                 ${replies.map(reply => `
                     <div class="comment-reply" data-comment-id="${reply.id}">
                         <div class="comment-avatar">
-                            <img src="${reply.userAvatar}" alt="${reply.userName}" onerror="this.src='assets/img/default-avatar.svg'">
+                            <img src="${reply.userAvatar}" alt="${reply.userName}" onerror="this.src='/assets/img/default-avatar.svg'">
                         </div>
                         <div class="comment-content">
                             <div class="comment-header">

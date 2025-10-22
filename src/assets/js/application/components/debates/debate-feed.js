@@ -110,7 +110,7 @@ class DebateFeed {
                 <div class="card-inner">
                     <div class="debate-card-header">
                         <div class="debate-author">
-                            <img src="${debate.author.avatar}" alt="${debate.author.name}" class="author-avatar" onerror="this.src='assets/img/default-avatar.svg'">
+                            <img src="${debate.author.avatar}" alt="${debate.author.name}" class="author-avatar" onerror="this.src='/assets/img/default-avatar.svg'">
                             <span class="author-name">${debate.author.name}</span>
                         </div>
                     </div>

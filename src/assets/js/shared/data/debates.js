@@ -6,7 +6,7 @@ const DEBATES_DATA = [
         author: {
             id: 1,
             name: "Carlos M.",
-            avatar: "assets/img/default-avatar.svg"
+            avatar: "/assets/img/default-avatar.svg"
         },
         externalLink: null, // Sin enlace externo, debate libre
         createdAt: "2025-10-18T10:30:00",
@@ -21,7 +21,7 @@ const DEBATES_DATA = [
                 id: 1,
                 userId: 2,
                 userName: "Ana G.",
-                userAvatar: "assets/img/default-avatar.svg",
+                userAvatar: "/assets/img/default-avatar.svg",
                 text: "Sin duda, ha cambiado completamente el mediocampo. Goles, asistencias y liderazgo.",
                 createdAt: "2025-10-18T11:00:00",
                 likes: 12,
@@ -30,7 +30,7 @@ const DEBATES_DATA = [
                         id: 2,
                         userId: 3,
                         userName: "Miguel R.",
-                        userAvatar: "assets/img/default-avatar.svg",
+                        userAvatar: "/assets/img/default-avatar.svg",
                         text: "Totalmente de acuerdo, además se ha adaptado increíblemente rápido",
                         createdAt: "2025-10-18T11:15:00",
                         likes: 5
@@ -41,7 +41,7 @@ const DEBATES_DATA = [
                 id: 3,
                 userId: 4,
                 userName: "Laura P.",
-                userAvatar: "assets/img/default-avatar.svg",
+                userAvatar: "/assets/img/default-avatar.svg",
                 text: "Es muy pronto para decirlo, pero va por muy buen camino",
                 createdAt: "2025-10-18T12:30:00",
                 likes: 8,
@@ -56,7 +56,7 @@ const DEBATES_DATA = [
         author: {
             id: 5,
             name: "Pedro S.",
-            avatar: "assets/img/default-avatar.svg"
+            avatar: "/assets/img/default-avatar.svg"
         },
         externalLink: {
             url: "https://www.marca.com/futbol/barcelona.html",
@@ -77,7 +77,7 @@ const DEBATES_DATA = [
                 id: 4,
                 userId: 6,
                 userName: "Javier L.",
-                userAvatar: "assets/img/default-avatar.svg",
+                userAvatar: "/assets/img/default-avatar.svg",
                 text: "Depende mucho de las lesiones. Si mantienen la plantilla sana, sí pueden.",
                 createdAt: "2025-10-19T10:00:00",
                 likes: 23,
@@ -92,7 +92,7 @@ const DEBATES_DATA = [
         author: {
             id: 7,
             name: "Sofía M.",
-            avatar: "assets/img/default-avatar.svg"
+            avatar: "/assets/img/default-avatar.svg"
         },
         externalLink: null,
         createdAt: "2025-10-20T08:00:00",
@@ -111,7 +111,7 @@ const DEBATES_DATA = [
         author: {
             id: 8,
             name: "Roberto F.",
-            avatar: "assets/img/default-avatar.svg"
+            avatar: "/assets/img/default-avatar.svg"
         },
         externalLink: {
             url: "https://twitter.com/AntoGriezmann/status/1234567890",
@@ -136,7 +136,7 @@ const DEBATES_DATA = [
         author: {
             id: 9,
             name: "Elena T.",
-            avatar: "assets/img/default-avatar.svg"
+            avatar: "/assets/img/default-avatar.svg"
         },
         externalLink: null,
         createdAt: "2025-10-19T16:45:00",
@@ -155,7 +155,7 @@ const DEBATES_DATA = [
         author: {
             id: 10,
             name: "David K.",
-            avatar: "assets/img/avatar10.jpg"
+            avatar: "/assets/img/avatar10.jpg"
         },
         externalLink: {
             url: "https://as.com/futbol/atletico-madrid/fichajes",

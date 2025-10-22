@@ -9,7 +9,7 @@ const TEAMS_DATA = [
         id: 1,
         name: 'Real Madrid',
         shortName: 'Real Madrid',
-        logo: 'assets/img/spain_real-madrid.svg',
+        logo: '/assets/img/spain_real-madrid.svg',
         colors: {
             primary: '#ffffff',
             secondary: '#000000'
@@ -26,7 +26,7 @@ const TEAMS_DATA = [
         id: 2,
         name: 'FC Barcelona',
         shortName: 'Barcelona',
-        logo: 'assets/img/spain_barcelona.svg',
+        logo: '/assets/img/spain_barcelona.svg',
         colors: {
             primary: '#004d98',
             secondary: '#a50044'
@@ -43,7 +43,7 @@ const TEAMS_DATA = [
         id: 3,
         name: 'Atlético de Madrid',
         shortName: 'Atlético',
-        logo: 'assets/img/spain_atletico-madrid.svg',
+        logo: '/assets/img/spain_atletico-madrid.svg',
         colors: {
             primary: '#ce3524',
             secondary: '#ffffff'
@@ -60,7 +60,7 @@ const TEAMS_DATA = [
         id: 4,
         name: 'Sevilla FC',
         shortName: 'Sevilla',
-        logo: 'assets/img/spain_sevilla.svg',
+        logo: '/assets/img/spain_sevilla.svg',
         colors: {
             primary: '#d81f26',
             secondary: '#ffffff'
@@ -77,7 +77,7 @@ const TEAMS_DATA = [
         id: 5,
         name: 'Real Sociedad',
         shortName: 'Real Sociedad',
-        logo: 'assets/img/spain_real-sociedad.svg',
+        logo: '/assets/img/spain_real-sociedad.svg',
         colors: {
             primary: '#0050a8',
             secondary: '#ffffff'
@@ -94,7 +94,7 @@ const TEAMS_DATA = [
         id: 6,
         name: 'Real Betis',
         shortName: 'Betis',
-        logo: 'assets/img/spain_real-betis.svg',
+        logo: '/assets/img/spain_real-betis.svg',
         colors: {
             primary: '#00954d',
             secondary: '#ffffff'
@@ -111,7 +111,7 @@ const TEAMS_DATA = [
         id: 7,
         name: 'Villarreal CF',
         shortName: 'Villarreal',
-        logo: 'assets/img/spain_villarreal.svg',
+        logo: '/assets/img/spain_villarreal.svg',
         colors: {
             primary: '#ffe667',
             secondary: '#005187'
@@ -128,7 +128,7 @@ const TEAMS_DATA = [
         id: 8,
         name: 'Athletic Club',
         shortName: 'Athletic',
-        logo: 'assets/img/spain_athletic-club.svg',
+        logo: '/assets/img/spain_athletic-club.svg',
         colors: {
             primary: '#ee2524',
             secondary: '#ffffff'
@@ -145,7 +145,7 @@ const TEAMS_DATA = [
         id: 9,
         name: 'Valencia CF',
         shortName: 'Valencia',
-        logo: 'assets/img/spain_valencia.svg',
+        logo: '/assets/img/spain_valencia.svg',
         colors: {
             primary: '#ee7a34',
             secondary: '#000000'
@@ -162,7 +162,7 @@ const TEAMS_DATA = [
         id: 10,
         name: 'Osasuna',
         shortName: 'Osasuna',
-        logo: 'assets/img/spain_osasuna.svg',
+        logo: '/assets/img/spain_osasuna.svg',
         colors: {
             primary: '#d31145',
             secondary: '#14275d'
@@ -179,7 +179,7 @@ const TEAMS_DATA = [
         id: 11,
         name: 'Getafe CF',
         shortName: 'Getafe',
-        logo: 'assets/img/spain_getafe.svg',
+        logo: '/assets/img/spain_getafe.svg',
         colors: {
             primary: '#005999',
             secondary: '#ffffff'
@@ -196,7 +196,7 @@ const TEAMS_DATA = [
         id: 12,
         name: 'Girona FC',
         shortName: 'Girona',
-        logo: 'assets/img/spain_girona.svg',
+        logo: '/assets/img/spain_girona.svg',
         colors: {
             primary: '#cc0000',
             secondary: '#ffffff'
@@ -213,7 +213,7 @@ const TEAMS_DATA = [
         id: 13,
         name: 'RCD Mallorca',
         shortName: 'Mallorca',
-        logo: 'assets/img/spain_mallorca.svg',
+        logo: '/assets/img/spain_mallorca.svg',
         colors: {
             primary: '#e20613',
             secondary: '#000000'
@@ -230,7 +230,7 @@ const TEAMS_DATA = [
         id: 14,
         name: 'Rayo Vallecano',
         shortName: 'Rayo',
-        logo: 'assets/img/spain_rayo-vallecano.svg',
+        logo: '/assets/img/spain_rayo-vallecano.svg',
         colors: {
             primary: '#ee2737',
             secondary: '#ffffff'
@@ -247,7 +247,7 @@ const TEAMS_DATA = [
         id: 15,
         name: 'RC Celta',
         shortName: 'Celta',
-        logo: 'assets/img/spain_celta.svg',
+        logo: '/assets/img/spain_celta.svg',
         colors: {
             primary: '#87cdee',
             secondary: '#ffffff'
@@ -264,7 +264,7 @@ const TEAMS_DATA = [
         id: 16,
         name: 'Deportivo Alavés',
         shortName: 'Alavés',
-        logo: 'assets/img/spain_deportivo.svg',
+        logo: '/assets/img/spain_deportivo.svg',
         colors: {
             primary: '#005ca9',
             secondary: '#ffffff'
@@ -281,7 +281,7 @@ const TEAMS_DATA = [
         id: 17,
         name: 'RCD Espanyol',
         shortName: 'Espanyol',
-        logo: 'assets/img/spain_espanyol.svg',
+        logo: '/assets/img/spain_espanyol.svg',
         colors: {
             primary: '#0078af',
             secondary: '#ffffff'
@@ -298,7 +298,7 @@ const TEAMS_DATA = [
         id: 18,
         name: 'Real Oviedo',
         shortName: 'Oviedo',
-        logo: 'assets/img/spain_oviedo.svg',
+        logo: '/assets/img/spain_oviedo.svg',
         colors: {
             primary: '#0033a0',
             secondary: '#ffffff'
@@ -315,7 +315,7 @@ const TEAMS_DATA = [
         id: 19,
         name: 'Levante UD',
         shortName: 'Levante',
-        logo: 'assets/img/spain_levante.svg',
+        logo: '/assets/img/spain_levante.svg',
         colors: {
             primary: '#004170',
             secondary: '#c1272d'
@@ -332,7 +332,7 @@ const TEAMS_DATA = [
         id: 20,
         name: 'Elche CF',
         shortName: 'Elche',
-        logo: 'assets/img/spain_elche.svg',
+        logo: '/assets/img/spain_elche.svg',
         colors: {
             primary: '#00703c',
             secondary: '#ffffff'
