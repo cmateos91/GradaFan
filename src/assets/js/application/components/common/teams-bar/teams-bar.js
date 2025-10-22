@@ -47,36 +47,20 @@ class TeamsBar {
     }
 
     getLocalTeams() {
-        // Equipos locales con orden estimado
-        const teamsOrder = [
-            'Real Madrid CF',
-            'FC Barcelona',
-            'Club Atlético de Madrid',
-            'Real Sociedad de Fútbol',
-            'Athletic Club',
-            'Real Betis Balompié',
-            'Villarreal CF',
-            'Valencia CF',
-            'CA Osasuna',
-            'Rayo Vallecano de Madrid',
-            'Sevilla FC',
-            'RCD Mallorca',
-            'Getafe CF',
-            'Girona FC',
-            'RC Celta de Vigo',
-            'Deportivo Alavés',
-            'RCD Espanyol de Barcelona',
-            'UD Las Palmas',
-            'Real Valladolid CF',
-            'Elche CF'
-        ];
+        // Usar TEAMS_DATA que ya está ordenado alfabéticamente
+        if (typeof TEAMS_DATA !== 'undefined' && TEAMS_DATA.length > 0) {
+            return TEAMS_DATA.map(team => ({
+                id: team.id,
+                name: team.name,
+                shortName: team.shortName,
+                position: team.stats.position,
+                badge: team.logo
+            }));
+        }
 
-        return teamsOrder.map((teamName, index) => ({
-            name: teamName,
-            shortName: teamName.replace(/^(Real|FC|Club|CA|RCD|UD)\s+/, '').split(' ')[0],
-            position: index + 1,
-            badge: window.TeamUtils.getTeamBadge(teamName)
-        }));
+        // Fallback si TEAMS_DATA no está disponible
+        console.warn('⚠️ TEAMS_DATA no disponible');
+        return [];
     }
 
     render() {
