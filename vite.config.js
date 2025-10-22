@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   // Directorio raíz para el servidor de desarrollo
-  root: 'src/pages',
+  root: 'src',
 
   // Directorio público con archivos estáticos
   publicDir: resolve(__dirname, 'public'),
@@ -30,6 +30,11 @@ export default defineConfig({
         clasificacion: resolve(__dirname, 'src/pages/clasificacion.html'),
         'en-vivo': resolve(__dirname, 'src/pages/en-vivo.html'),
         debate: resolve(__dirname, 'src/pages/debate.html')
+      },
+      output: {
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       }
     },
 

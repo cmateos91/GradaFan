@@ -6,9 +6,9 @@
 class ComponentLoader {
     constructor() {
         this.components = {
-            navbar: '../components/navbar.html',
-            'teams-bar': '../components/teams-bar.html',
-            footer: '../components/footer.html'
+            navbar: '/components/navbar.html',
+            'teams-bar': '/components/teams-bar.html',
+            footer: '/components/footer.html'
         };
         this.loaded = {};
     }
