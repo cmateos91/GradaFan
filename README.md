@@ -47,40 +47,61 @@ LaLiga Social no es solo un portal de noticias deportivas - es una **comunidad i
 ```
 LaLiga-Social/
 │
-├── index.html                          # Página principal
-│
-├── assets/
+├── src/                                # Código fuente
+│   ├── pages/                          # Páginas HTML
+│   │   ├── index.html                  # Página principal
+│   │   ├── clasificacion.html          # Tabla de posiciones
+│   │   ├── en-vivo.html                # Partidos en vivo
+│   │   └── debate.html                 # Vista de debate
 │   │
-│   ├── css/
-│   │   ├── variables.css               # Variables CSS centralizadas
-│   │   ├── base.css                    # Reset y estilos base
-│   │   ├── layout.css                  # Estructura de layout (grid, navbar, etc)
-│   │   ├── components.css              # Componentes UI (buttons, chat, hero)
-│   │   ├── effects.css                 # Efectos 3D y animaciones
-│   │   └── responsive.css              # Media queries y responsive
+│   ├── components/                     # Componentes reutilizables
+│   │   ├── navbar.html                 # Barra de navegación
+│   │   ├── footer.html                 # Pie de página
+│   │   └── teams-bar.html              # Barra de equipos
 │   │
-│   └── js/
+│   └── assets/                         # Assets del proyecto
+│       ├── css/                        # Estilos (SMACSS)
+│       │   ├── base/                   # Reset y fundamentos
+│       │   ├── layout/                 # Layouts principales
+│       │   ├── modules/                # Componentes modulares
+│       │   ├── pages/                  # Estilos por página
+│       │   ├── state/                  # Estados y utilidades
+│       │   └── main.css                # Punto de entrada
 │       │
-│       ├── data/
-│       │   ├── teams.js                # Datos de 20 equipos La Liga
-│       │   ├── news.js                 # Noticias y artículos
-│       │   └── users.js                # Usuarios y mensajes de chat
+│       ├── js/                         # JavaScript (DDD)
+│       │   ├── application/            # Capa de aplicación
+│       │   │   ├── components/        # Componentes UI
+│       │   │   ├── config/            # Configuración
+│       │   │   └── app.js             # Bootstrap
+│       │   │
+│       │   ├── infrastructure/         # Capa de infraestructura
+│       │   │   ├── core/              # Funcionalidades core
+│       │   │   ├── services/          # Servicios externos
+│       │   │   └── utils/             # Utilidades
+│       │   │
+│       │   └── shared/                 # Capa compartida
+│       │       └── data/               # Datos mock
 │       │
-│       ├── core/
-│       │   ├── smooth-scroll.js        # Lenis smooth scroll wrapper
-│       │   ├── tilt-cards.js           # Sistema de tarjetas 3D
-│       │   └── parallax.js             # Parallax en imágenes
-│       │
-│       ├── components/
-│       │   ├── navbar.js               # Barra de navegación
-│       │   ├── chat.js                 # Chat en vivo
-│       │   ├── news-feed.js            # Feed de noticias
-│       │   └── sidebar.js              # Sidebar widgets
-│       │
-│       └── app.js                      # Aplicación principal
+│       └── img/                        # Imágenes
 │
+├── docs/                               # Documentación
+│   ├── ARCHITECTURE.md                 # Arquitectura detallada
+│   └── API_SETUP.md                    # Configuración de API
+│
+├── scripts/                            # Scripts de utilidad
+│   └── INICIAR_SERVIDOR.bat           # Iniciar dev server
+│
+├── public/                             # Assets estáticos públicos
+│   └── robots.txt
+│
+├── dist/                               # Build de producción (generado)
+│
+├── package.json                        # Configuración npm
+├── vite.config.js                      # Configuración Vite
 └── README.md                           # Este archivo
 ```
+
+> **Nota:** Ver [ARCHITECTURE.md](docs/ARCHITECTURE.md) para documentación completa de la arquitectura.
 
 ---
 
@@ -231,30 +252,40 @@ Cada equipo tiene su color oficial almacenado en `TEAMS_DATA`:
 
 ## 🚀 Instalación y Uso
 
-### Opción 1: Abrir Directamente
+### Instalación
+
 ```bash
-# Simplemente abre index.html en tu navegador
-start index.html
+# 1. Clonar el repositorio
+git clone https://github.com/tu-usuario/laliga-social.git
+cd laliga-social
+
+# 2. Instalar dependencias
+npm install
 ```
 
-### Opción 2: Servidor Local (recomendado)
+### Desarrollo
 
-**Con Python:**
 ```bash
-python -m http.server 8000
-# Visita http://localhost:8000
+# Iniciar servidor de desarrollo (puerto 3000)
+npm run dev
+
+# O usar el script de Windows
+scripts/INICIAR_SERVIDOR.bat
 ```
 
-**Con Node.js:**
+El navegador se abrirá automáticamente en `http://localhost:3000`
+
+### Build de Producción
+
 ```bash
-npx http-server
-# Visita http://localhost:8080
+# Generar build optimizado
+npm run build
+
+# Preview del build
+npm run preview
 ```
 
-**Con Live Server (VSCode):**
-1. Instala la extensión "Live Server"
-2. Click derecho en `index.html`
-3. "Open with Live Server"
+Los archivos se generarán en la carpeta `dist/`
 
 ---
 
