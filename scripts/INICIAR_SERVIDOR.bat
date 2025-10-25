@@ -3,7 +3,7 @@ echo ========================================
 echo   LaLiga Social - Servidor de Desarrollo
 echo ========================================
 echo.
-echo Iniciando Vite Dev Server en puerto 3000...
+echo Iniciando Astro Dev Server en puerto 4321...
 echo El navegador se abrira automaticamente
 echo.
 echo IMPORTANTE: Se requiere Node.js instalado

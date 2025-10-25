@@ -1,10 +1,11 @@
 # ==================== LaLiga Social - GitIgnore ====================
 
 # API Configuration (contiene API keys sensibles)
-# IMPORTANTE: Si ya subiste api-config.js a GitHub, debes:
-# 1. Eliminar el archivo del repositorio
-# 2. Crear un api-config.example.js sin la API key real
-src/assets/js/application/config/api-config.js
+# IMPORTANTE: Si ya subiste estos archivos a GitHub, debes:
+# 1. Eliminar el archivo del repositorio con git rm --cached
+# 2. Hacer commit del .gitignore actualizado
+public/assets/js/application/config/api-config.js
+src/pages/api/football/[...path].js
 
 # Node modules (si usas algún build tool en el futuro)
 node_modules/

@@ -1,0 +1,296 @@
+/* ==================== 3D EFFECTS & ANIMATIONS ==================== */
+/*
+ * Efectos 3D Tilt y animaciones especiales
+ * Parallax, Reveals, Transitions
+ */
+
+/* ========== NEWS CARD 3D TILT ========== */
+
+.news-card {
+    position: relative;
+    background: var(--color-surface);
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+    transition: transform var(--transition-base);
+    cursor: pointer;
+    will-change: transform;
+}
+
+.news-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+/* Card Image (Background Layer) */
+.news-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.news-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.news-card:hover .news-card-image img {
+    transform: scale(1.05);
+}
+
+/* Card Overlay (Middle Layer) */
+.news-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(10, 10, 10, 0.5) 50%,
+        rgba(10, 10, 10, 0.9) 100%
+    );
+    transform-style: preserve-3d;
+}
+
+/* Card Content (Front Layer) */
+.news-card-content {
+    padding: var(--spacing-lg);
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: 2;
+}
+
+.news-card-category {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: var(--color-primary);
+    color: var(--color-background);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-md);
+}
+
+.news-card-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-primary);
+}
+
+.news-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.news-card-stats {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.news-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.news-stat:hover {
+    color: var(--color-primary);
+}
+
+.news-stat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    flex-shrink: 0;
+}
+
+.news-stat-value {
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Card Shine Effect */
+.news-card-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.news-card:hover .news-card-shine {
+    opacity: 1;
+}
+
+/* ========== PARALLAX EFFECTS ========== */
+
+.parallax-bg {
+    will-change: transform;
+}
+
+.parallax-element {
+    will-change: transform;
+    transition: transform 0.1s ease-out;
+}
+
+/* ========== REVEAL ANIMATIONS ========== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--ease-out-cubic),
+                transform 0.8s var(--ease-out-cubic);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s var(--ease-out-cubic),
+                transform 0.6s var(--ease-out-cubic);
+}
+
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ========== HOVER EFFECTS ========== */
+
+.hover-lift {
+    transition: transform var(--transition-base);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+}
+
+.hover-glow {
+    transition: box-shadow var(--transition-base);
+}
+
+.hover-glow:hover {
+    box-shadow: var(--shadow-glow-primary);
+}
+
+/* ========== LOADING STATES ========== */
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--color-surface) 0%,
+        var(--color-surface-elevated) 50%,
+        var(--color-surface) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ========== MICRO INTERACTIONS ========== */
+
+.bounce-in {
+    animation: bounceIn 0.5s var(--ease-bounce);
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ========== TEAM BADGE COLORS ========== */
+
+.badge-real-madrid { background: #ffffff; color: #000000; }
+.badge-barcelona { background: #004d98; color: #ffffff; }
+.badge-atletico { background: #ce3524; color: #ffffff; }
+.badge-sevilla { background: #d81f26; color: #ffffff; }
+.badge-valencia { background: #ee7a34; color: #ffffff; }
+.badge-athletic { background: #ee2524; color: #ffffff; }
+.badge-villarreal { background: #ffe667; color: #005187; }
+.badge-betis { background: #00954d; color: #ffffff; }
+
+/* ========== PERFORMANCE OPTIMIZATIONS ========== */
+
+.news-card,
+.news-card-inner,
+.news-card-image,
+.news-card-overlay,
+.news-card-content,
+.news-card-shine {
+    will-change: transform;
+}
+
+/* Force GPU acceleration */
+.gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}

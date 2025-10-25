@@ -1,0 +1,207 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import TeamsBar from '../components/TeamsBar.astro';
+import Footer from '../components/Footer.astro';
+import heroBackground from '../assets/img/fondo_hero.jpg';
+---
+
+<BaseLayout title="LaLiga Social - Noticias de Fútbol con Comunidad">
+    <Navbar />
+    <TeamsBar />
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-background parallax-bg">
+            <Image
+                src={heroBackground}
+                alt="Hero Background"
+                class="hero-bg-image"
+                width={1920}
+                height={1080}
+                quality={85}
+                loading="eager"
+                format="webp"
+            />
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="container hero-content">
+            <!-- Hero News Card with 3D Tilt -->
+            <div class="hero-main" data-tilt>
+                <div class="hero-card-inner">
+                    <!-- Dynamic Hero Content (will be populated by JS) -->
+                    <div class="hero-news-content">
+                        <!-- Hero Title -->
+                        <h1 class="hero-title"></h1>
+
+                        <!-- Hero Meta -->
+                        <div class="hero-meta">
+                            <span class="meta-team"></span>
+                            <span class="meta-separator">•</span>
+                            <span class="meta-time"></span>
+                            <span class="meta-separator">•</span>
+                            <span class="meta-author"></span>
+                        </div>
+
+                        <!-- Hero Stats -->
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <span class="stat-icon" data-icon="comment"></span>
+                                <span class="stat-value"></span>
+                                <span class="stat-label">Comentarios</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon" data-icon="like"></span>
+                                <span class="stat-value"></span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-icon" data-icon="fire"></span>
+                                <span class="stat-value trending-position"></span>
+                                <span class="stat-label">En España</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Navigation Dots -->
+                    <div class="hero-nav-dots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                        <span class="dot" data-index="2"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Chat Preview (Hero) -->
+            <div class="hero-chat" id="hero-chat">
+                <div class="chat-header">
+                    <span class="chat-title">💬 Chat en Vivo</span>
+                    <span class="chat-online">🟢 2,345 online</span>
+                </div>
+                <div class="chat-messages" id="hero-chat-messages">
+                    <!-- Messages will be populated by JS -->
+                </div>
+                <div class="chat-input-wrapper">
+                    <input type="text"
+                           class="chat-input"
+                           placeholder="Escribe tu opinión..."
+                           id="hero-chat-input">
+                    <button class="chat-send">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+        <div class="container main-container">
+
+            <!-- ==================== SIDEBAR ==================== -->
+            <aside class="sidebar" id="sidebar">
+
+                <!-- Featured Debates -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title"><span class="title-icon" data-icon="fire"></span>Debates Destacados</h3>
+                    <div class="featured-debates-list" id="featured-debates-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Live Matches -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title"><span class="title-icon" data-icon="laliga"></span>Partidos Hoy</h3>
+                    <div class="matches-list" id="live-matches">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Top Users -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">👑 Top Usuarios</h3>
+                    <div class="top-users-list" id="top-users">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- My Team -->
+                <div class="sidebar-widget highlight-widget">
+                    <h3 class="widget-title"><span class="title-icon" data-icon="trophy"></span>Mi Equipo</h3>
+                    <div class="my-team-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg"
+                             alt="Real Madrid"
+                             class="team-logo">
+                        <div class="team-info">
+                            <h4>Real Madrid CF</h4>
+                            <p class="team-position">1º • 45 pts</p>
+                        </div>
+                    </div>
+                    <button class="btn-secondary btn-block">Ver Noticias del Equipo</button>
+                </div>
+
+            </aside>
+
+            <!-- ==================== DEBATES FEED ==================== -->
+            <section class="debates-feed" id="debates-feed">
+                <!-- Feed will be populated by DebateFeed component -->
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ==================== COMMUNITY SECTION ==================== -->
+    <section class="community-section" id="community">
+        <div class="container">
+            <h2 class="section-title">👥 Comunidad LaLiga Social</h2>
+            <p class="section-subtitle">Únete a miles de aficionados apasionados</p>
+
+            <div class="community-stats">
+                <div class="community-stat">
+                    <div class="stat-number">125K+</div>
+                    <div class="stat-description">Usuarios Activos</div>
+                </div>
+                <div class="community-stat">
+                    <div class="stat-number">2.5M+</div>
+                    <div class="stat-description">Comentarios Hoy</div>
+                </div>
+                <div class="community-stat">
+                    <div class="stat-number">20</div>
+                    <div class="stat-description">Equipos de LaLiga</div>
+                </div>
+                <div class="community-stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-description">Cobertura en Vivo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <Footer />
+
+    <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
+    <!-- Scripts que SOLO se usan en la página de inicio -->
+
+    <!-- Shared: Data (Index only) -->
+    <script is:inline src="/assets/js/shared/data/debates.js"></script>
+    <script is:inline src="/assets/js/shared/data/chat.js"></script>
+
+    <!-- Infrastructure: Services (Index only) -->
+    <script is:inline src="/assets/js/infrastructure/services/debates-service-global.js"></script>
+    <script is:inline src="/assets/js/infrastructure/services/debates-cache.js"></script>
+
+    <!-- Infrastructure: Core (Index only - 3D Effects) -->
+    <script is:inline src="/assets/js/infrastructure/core/tilt-cards.js"></script>
+    <script is:inline src="/assets/js/infrastructure/core/parallax.js"></script>
+
+    <!-- Application: Components - News (Index only) -->
+    <script is:inline src="/assets/js/application/components/news/hero/hero.js"></script>
+    <script is:inline src="/assets/js/application/components/news/news-feed/news-feed.js"></script>
+    <script is:inline src="/assets/js/application/components/news/sidebar/sidebar.js"></script>
+
+    <!-- Application: Components - Matches Widget (Index only) -->
+    <script is:inline src="/assets/js/application/components/matches/today-widget/today-matches-widget.js"></script>
+
+    <!-- Application: Components - Debates (Index only) -->
+    <script is:inline src="/assets/js/application/components/debates/debate-feed.js"></script>
+</BaseLayout>

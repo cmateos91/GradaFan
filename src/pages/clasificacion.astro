@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import TeamsBar from '../components/TeamsBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+    title="Clasificación - LaLiga Social"
+    description="Clasificación actualizada de LaLiga 2024/2025"
+    keywords="LaLiga, clasificación, tabla, posiciones, puntos">
+
+    <Navbar />
+    <TeamsBar />
+
+    <!-- Additional CSS for standings page -->
+    <link rel="stylesheet" href="/assets/css/pages/standings.css">
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <section class="standings-section">
+                <div class="section-header">
+                    <h1 class="section-title">Clasificación LaLiga 2025/2006</h1>
+                </div>
+
+                <!-- Standings Container -->
+                <div id="standings-container">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <Footer />
+
+    <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
+    <!-- Scripts que SOLO se usan en la página de clasificación -->
+
+    <!-- Application: Components - Standings (This page only) -->
+    <script is:inline src="/assets/js/application/components/standings/standings.js"></script>
+</BaseLayout>

@@ -1,22 +1,29 @@
 {
   "name": "laliga-social",
-  "version": "1.0.0",
-  "description": "LaLiga Social - Red social de noticias de fútbol español",
+  "version": "2.0.0",
+  "description": "LaLiga Social - Red social de noticias de fútbol español con Astro",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "serve": "vite preview"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "keywords": [
     "laliga",
     "football",
     "social-network",
-    "sports"
+    "sports",
+    "astro"
   ],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "@astrojs/node": "^9.5.0",
+    "@studio-freight/lenis": "^1.0.42",
+    "@supabase/supabase-js": "^2.76.1",
+    "astro": "^5.14.8"
+  },
   "devDependencies": {
     "vite": "^5.0.0"
   }
