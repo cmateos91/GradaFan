@@ -1,0 +1,24 @@
+/* ==================== COMPONENTS ==================== */
+/*
+ * Componentes reutilizables de la UI
+ * Este archivo importa todos los módulos de componentes
+ *
+ * Arquitectura modular:
+ * - Cada tipo de componente tiene su propio archivo
+ * - Facilita el mantenimiento y la escalabilidad
+ * - Reduce el tamaño de archivos individuales
+ */
+
+/* ========== COMPONENT MODULES ========== */
+
+/* Botones: primarios, secundarios, outline, filters */
+@import './modules/buttons.css';
+
+/* Hero: noticia destacada, rotación, navigation dots, loading */
+@import './modules/hero.css';
+
+/* Chat: componente de chat en tiempo real, mensajes, input */
+@import './modules/chat.css';
+
+/* Widgets: sidebar widgets, today matches, trending, users */
+@import './modules/widgets.css';

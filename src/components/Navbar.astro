@@ -1,0 +1,34 @@
+---
+// Componente Navbar - Mantiene estructura HTML exacta
+---
+
+<nav class="navbar" id="navbar">
+    <div class="container navbar-container">
+        <!-- Logo -->
+        <div class="navbar-brand">
+            <h1 class="logo">
+                <span class="logo-icon" id="logo-icon"></span>
+                LaLiga <span class="highlight">Social</span>
+            </h1>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="navbar-menu">
+            <li><a href="/" class="nav-link" data-page="index">Inicio</a></li>
+            <li><a href="/en-vivo" class="nav-link live-link" data-page="en-vivo">🔴 En Vivo</a></li>
+            <li><a href="/clasificacion" class="nav-link" data-page="clasificacion">Clasificación</a></li>
+            <li><a href="#" class="nav-link">Comunidad</a></li>
+        </ul>
+
+        <!-- User Section -->
+        <div class="navbar-user">
+            <div class="user-points">
+                <span class="points-icon" data-icon="star"></span>
+                <span class="points-value" id="user-points">2,450</span>
+            </div>
+            <div class="user-avatar" id="user-avatar">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=LaLiga" alt="Usuario">
+            </div>
+        </div>
+    </div>
+</nav>

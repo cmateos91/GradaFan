@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import TeamsBar from '../components/TeamsBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+    title="En Vivo - LaLiga Social"
+    description="Partidos de LaLiga en vivo y próximos encuentros"
+    keywords="LaLiga, en vivo, partidos, resultados, directo">
+
+    <Navbar />
+    <TeamsBar />
+
+    <!-- Additional CSS for live matches page -->
+    <link rel="stylesheet" href="/assets/css/pages/live-matches.css">
+    <link rel="stylesheet" href="/assets/css/pages/upcoming-matches.css">
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Header -->
+            <section class="standings-section">
+                <div class="section-header">
+                    <h1 class="section-title">
+                        <span class="live-dot"></span>
+                        Partidos en Vivo
+                    </h1>
+                </div>
+
+                <!-- Live Matches Container -->
+                <div id="live-matches-container">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Upcoming Matches Section -->
+            <section class="standings-section" style="margin-top: var(--spacing-3xl);">
+                <div class="upcoming-matches-header">
+                    <h2 class="upcoming-title">
+                        <span class="upcoming-icon" data-icon="calendar"></span>
+                        Próximos Partidos
+                    </h2>
+                </div>
+
+                <div id="upcoming-matches-container">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <Footer />
+
+    <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
+    <!-- Scripts que SOLO se usan en la página de partidos en vivo -->
+
+    <!-- Application: Components - Matches (This page only) -->
+    <script is:inline src="/assets/js/application/components/matches/live-matches/live-matches.js"></script>
+    <script is:inline src="/assets/js/application/components/matches/upcoming-matches/upcoming-matches.js"></script>
+</BaseLayout>

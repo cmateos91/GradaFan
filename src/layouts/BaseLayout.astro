@@ -1,0 +1,117 @@
+---
+// Props para personalizar cada página
+interface Props {
+    title?: string;
+    description?: string;
+    keywords?: string;
+}
+
+const {
+    title = 'LaLiga Social - Noticias de Fútbol con Comunidad',
+    description = 'LaLiga Social - La primera red social de noticias de fútbol español',
+    keywords = 'LaLiga, fútbol, noticias, comunidad, chat, Real Madrid, Barcelona'
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- ==================== META TAGS ==================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <meta name="keywords" content={keywords}>
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- ==================== STYLES - NUEVA ARQUITECTURA ==================== -->
+
+    <!-- Critical CSS Inline (Above the Fold) - Mejora FCP ~500ms -->
+    <style>
+        /* Variables críticas */
+        :root{--color-background:#0a0a0a;--color-surface:#1a1a1a;--color-surface-elevated:#242424;--color-text-primary:#fff;--color-text-secondary:#a0a0a0;--color-primary:#00ff88;--spacing-sm:0.5rem;--spacing-md:1rem;--spacing-lg:1.5rem;--spacing-xl:2rem;--font-primary:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--border-radius-md:0.5rem;--border-radius-lg:1rem;--border-radius-full:9999px;--navbar-height:70px}
+
+        /* Reset crítico */
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+        body{font-family:var(--font-primary);color:var(--color-text-primary);background-color:var(--color-background);overflow-x:hidden;min-height:100vh}
+
+        /* Navbar crítico */
+        .navbar{position:sticky;top:0;height:var(--navbar-height);background:rgba(10,10,10,.95);backdrop-filter:blur(10px);z-index:1000;border-bottom:1px solid rgba(255,255,255,.1)}
+        .navbar-container{height:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-xl);max-width:1400px;margin:0 auto;padding:0 var(--spacing-lg)}
+
+        /* Logo crítico - EVITA que se vea gigante al cambiar de página */
+        .logo{font-size:1.25rem;font-weight:900;display:flex;align-items:center;gap:var(--spacing-sm);margin:0}
+        .logo-icon{display:inline-flex;align-items:center;justify-content:center}
+        .logo-icon svg{width:24px;height:24px;color:var(--color-primary)}
+
+        /* User avatar crítico - EVITA que se vea gigante al cambiar de página */
+        .user-avatar{width:40px;height:40px;border-radius:var(--border-radius-full);overflow:hidden;border:2px solid var(--color-primary);flex-shrink:0}
+        .user-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+
+        /* TeamsBar crítico */
+        .teams-bar{background:var(--color-surface-elevated);padding:var(--spacing-md) 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+        /* Loading state */
+        .loading{display:flex;justify-content:center;align-items:center;min-height:200px}
+    </style>
+
+    <!-- Main CSS - Cargar normalmente para evitar FOUC -->
+    <!-- El Critical CSS inline arriba mejora FCP mientras se carga este archivo -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <!-- Slot donde se inyectará el contenido de cada página -->
+    <slot />
+
+    <!-- ==================== SCRIPTS COMUNES - OPTIMIZADO ==================== -->
+    <!-- Solo scripts que SE USAN EN TODAS LAS PÁGINAS -->
+    <!-- ⚡ ORDEN CRÍTICO: Supabase PRIMERO para evitar latencia -->
+
+    <!-- External Libraries (DESACTIVADO - No se usa, ver smooth-scroll.js:18-20) -->
+    <!-- Lenis está comentado porque smooth-scroll.js usa scroll nativo por rendimiento -->
+    <!-- <script async defer src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script> -->
+
+    <!-- Supabase (CRÍTICO - Cargar ANTES que los componentes que lo necesitan) -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script is:inline define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseAnonKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
+        window.SUPABASE_CONFIG = { supabaseUrl, supabaseAnonKey };
+    </script>
+    <script is:inline src="/assets/js/infrastructure/services/supabase-client-browser.js"></script>
+
+    <!-- Shared: Data (Common) -->
+    <script is:inline src="/assets/js/shared/data/teams.js"></script>
+    <script is:inline src="/assets/js/shared/data/users.js"></script>
+
+    <!-- Application: Configuration (Common) -->
+    <script is:inline src="/assets/js/application/config/api-config.js"></script>
+
+    <!-- Infrastructure: Services (Common) -->
+    <script is:inline src="/assets/js/infrastructure/services/football-api.js"></script>
+
+    <!-- Infrastructure: Utils (Common) -->
+    <script is:inline src="/assets/js/infrastructure/utils/team-utils.js"></script>
+    <script is:inline src="/assets/js/infrastructure/utils/dom-utils.js"></script>
+    <script is:inline src="/assets/js/infrastructure/utils/date-utils.js"></script>
+    <script is:inline src="/assets/js/infrastructure/utils/storage-utils.js"></script>
+
+    <!-- Infrastructure: Core (Common) -->
+    <script is:inline src="/assets/js/infrastructure/core/event-bus.js"></script>
+    <script is:inline src="/assets/js/infrastructure/core/component-loader.js"></script>
+    <script is:inline src="/assets/js/infrastructure/core/smooth-scroll.js"></script>
+
+    <!-- Application: Components - Common (Used in ALL pages) -->
+    <script is:inline src="/assets/js/application/components/common/icons/icons.js"></script>
+    <script is:inline src="/assets/js/application/components/common/navbar/navbar.js"></script>
+    <script is:inline src="/assets/js/application/components/common/teams-bar/teams-bar.js"></script>
+    <!-- Chat en Tiempo Real (SSE) - Efímero en memoria -->
+    <script is:inline src="/assets/js/application/components/common/chat/chat-modal.js"></script>
+
+    <!-- Application: Main (Common) -->
+    <script is:inline src="/assets/js/application/app.js"></script>
+
+    <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
+    <!-- Los scripts específicos de cada página se cargan en la página individual -->
+    <!-- Esto reduce el bundle size en ~150-200KB por página -->
+</body>
+</html>
