@@ -19,6 +19,9 @@
   ],
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@astrojs/node": "^9.5.0",
     "@studio-freight/lenis": "^1.0.42",
