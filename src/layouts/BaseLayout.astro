@@ -90,12 +90,31 @@ const teamLogosMap = await getTeamLogosMap();
         window.TEAM_LOGOS_MAP = teamLogosMap;
     </script>
 
+    <!-- API Configuration - Inyectada desde variables de entorno -->
+    <script is:inline define:vars={{ footballApiKey: import.meta.env.FOOTBALL_API_KEY }}>
+        window.API_CONFIG = {
+            FOOTBALL_DATA: {
+                API_KEY: footballApiKey,
+                BASE_URL: '/api/football',
+                DIRECT_URL: 'https://api.football-data.org/v4',
+                LALIGA_CODE: 'PD',
+                LALIGA_ID: 2014,
+                CACHE_DURATION: 5 * 60 * 1000,
+                MAX_REQUESTS_PER_MINUTE: 10
+            }
+        };
+        window.validateAPIConfig = function() {
+            if (!footballApiKey || footballApiKey === 'TU_API_KEY_AQUI') {
+                console.warn('⚠️ API Key no configurada');
+                return false;
+            }
+            return true;
+        };
+    </script>
+
     <!-- Shared: Data (Common) -->
     <script is:inline src="/assets/js/shared/data/teams.js"></script>
     <script is:inline src="/assets/js/shared/data/users.js"></script>
-
-    <!-- Application: Configuration (Common) -->
-    <script is:inline src="/assets/js/application/config/api-config.js"></script>
 
     <!-- Infrastructure: Services (Common) -->
     <script is:inline src="/assets/js/infrastructure/services/auth-service.js"></script>
