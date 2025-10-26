@@ -1,4 +1,4 @@
-# ⚽ LaLiga Social - Red Social de Noticias de Fútbol
+# ⚽ GradaFan - Red Social de Noticias de Fútbol
 
 Una plataforma moderna de noticias de fútbol español que combina información en tiempo real con interacción comunitaria, creando una experiencia única tipo "red social" para aficionados de La Liga.
 
