@@ -21,28 +21,10 @@ export default defineConfig({
     host: '0.0.0.0'
   },
 
-  // Build configuration
-  build: {
-    assets: 'assets'
-  },
-
   // Desactivar warnings de optimización de imágenes para contenido dinámico
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp'
-    }
-  },
-
-  // Mantener compatibilidad con archivos existentes
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          assetFileNames: 'assets/[name]-[hash][extname]',
-          chunkFileNames: 'assets/[name]-[hash].js',
-          entryFileNames: 'assets/[name]-[hash].js'
-        }
-      }
     }
   }
 });
