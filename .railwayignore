@@ -1,0 +1,37 @@
+# Railway Ignore File
+# Similar to .gitignore, but for Railway deployments
+
+# Development
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (se configurarán en Railway dashboard)
+.env
+.env.local
+.env.*.local
+
+# Dependencies (se instalarán en Railway)
+node_modules/
+
+# Build output (se generará en Railway)
+dist/
+.astro/
+
+# Temp files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Scripts de desarrollo
+get-laliga-teams.js
+find-team-ids.js
+add-missing-teams.sql
+supabase-schema-v*.sql
+
+# Claude settings
+.claude/

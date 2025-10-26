@@ -1,4 +1,6 @@
 ---
+import { getTeamLogosMap } from '../utils/team-images';
+
 // Props para personalizar cada página
 interface Props {
     title?: string;
@@ -11,6 +13,9 @@ const {
     description = 'LaLiga Social - La primera red social de noticias de fútbol español',
     keywords = 'LaLiga, fútbol, noticias, comunidad, chat, Real Madrid, Barcelona'
 } = Astro.props;
+
+// Generar URLs optimizadas de los logos de equipos
+const teamLogosMap = await getTeamLogosMap();
 ---
 
 <!DOCTYPE html>
@@ -59,6 +64,7 @@ const {
     <!-- Main CSS - Cargar normalmente para evitar FOUC -->
     <!-- El Critical CSS inline arriba mejora FCP mientras se carga este archivo -->
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/modules/debate-modal.css">
 </head>
 <body>
     <!-- Slot donde se inyectará el contenido de cada página -->
@@ -79,6 +85,11 @@ const {
     </script>
     <script is:inline src="/assets/js/infrastructure/services/supabase-client-browser.js"></script>
 
+    <!-- Team Logos Map - URLs optimizadas de Astro disponibles para JavaScript -->
+    <script is:inline define:vars={{ teamLogosMap }}>
+        window.TEAM_LOGOS_MAP = teamLogosMap;
+    </script>
+
     <!-- Shared: Data (Common) -->
     <script is:inline src="/assets/js/shared/data/teams.js"></script>
     <script is:inline src="/assets/js/shared/data/users.js"></script>
@@ -87,6 +98,7 @@ const {
     <script is:inline src="/assets/js/application/config/api-config.js"></script>
 
     <!-- Infrastructure: Services (Common) -->
+    <script is:inline src="/assets/js/infrastructure/services/auth-service.js"></script>
     <script is:inline src="/assets/js/infrastructure/services/football-api.js"></script>
 
     <!-- Infrastructure: Utils (Common) -->
@@ -104,8 +116,12 @@ const {
     <script is:inline src="/assets/js/application/components/common/icons/icons.js"></script>
     <script is:inline src="/assets/js/application/components/common/navbar/navbar.js"></script>
     <script is:inline src="/assets/js/application/components/common/teams-bar/teams-bar.js"></script>
+    <!-- Auth: Login y Registro -->
+    <script is:inline src="/assets/js/application/components/common/auth/auth-modal.js"></script>
     <!-- Chat en Tiempo Real (SSE) - Efímero en memoria -->
     <script is:inline src="/assets/js/application/components/common/chat/chat-modal.js"></script>
+    <!-- Debate Modal: Crear nuevos debates -->
+    <script is:inline src="/assets/js/application/components/common/debate-modal.js"></script>
 
     <!-- Application: Main (Common) -->
     <script is:inline src="/assets/js/application/app.js"></script>

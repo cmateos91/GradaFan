@@ -18,5 +18,8 @@
       "Read(./.env)",
       "Read(./.env.*)"
     ]
+  },
+  "customInstructions": {
+    "beforeImplementing": "ALWAYS search the web for current best practices (2024-2025) before implementing any code, architecture, or design patterns. Use WebSearch to verify the latest recommendations for the specific technology/framework being used."
   }
 }

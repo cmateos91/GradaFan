@@ -18,16 +18,39 @@
             <li><a href="/en-vivo" class="nav-link live-link" data-page="en-vivo">🔴 En Vivo</a></li>
             <li><a href="/clasificacion" class="nav-link" data-page="clasificacion">Clasificación</a></li>
             <li><a href="#" class="nav-link">Comunidad</a></li>
+            <li><a href="/contacto" class="nav-link" data-page="contacto">Contacto</a></li>
         </ul>
 
         <!-- User Section -->
         <div class="navbar-user">
-            <div class="user-points">
-                <span class="points-icon" data-icon="star"></span>
-                <span class="points-value" id="user-points">2,450</span>
+            <!-- Botones para usuarios NO autenticados -->
+            <div class="navbar-auth-buttons" id="authButtons">
+                <button class="btn-login" id="btnLogin">Iniciar Sesión</button>
+                <button class="btn-register" id="btnRegister">Registrarse</button>
             </div>
-            <div class="user-avatar" id="user-avatar">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=LaLiga" alt="Usuario">
+
+            <!-- Info de usuario autenticado (oculto por defecto) -->
+            <div class="navbar-user-info hidden" id="userInfo">
+                <div class="user-points">
+                    <span class="points-icon" data-icon="star"></span>
+                    <span class="points-value" id="user-points">0</span>
+                </div>
+                <div class="user-avatar" id="user-avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Usuario" id="userAvatarImg">
+                </div>
+                <div class="user-dropdown">
+                    <div class="user-dropdown-header">
+                        <div class="user-dropdown-name" id="userName">Usuario</div>
+                        <div class="user-dropdown-level" id="userLevel">Aficionado</div>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="#" class="dropdown-item">Mi Perfil</a>
+                        <a href="#" class="dropdown-item">Mis Debates</a>
+                        <a href="#" class="dropdown-item">Configuración</a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item" id="btnLogout">Cerrar Sesión</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

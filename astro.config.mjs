@@ -14,10 +14,11 @@ export default defineConfig({
   srcDir: './src',
   publicDir: './public',
 
-  // Configuración del servidor de desarrollo
+  // Configuración del servidor
+  // host: '0.0.0.0' es crítico para Railway (acepta tráfico externo)
   server: {
     port: 4321,
-    host: true
+    host: '0.0.0.0'
   },
 
   // Build configuration

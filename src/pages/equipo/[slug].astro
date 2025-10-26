@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { createClient } from '@supabase/supabase-js';
+import { Image, getImage } from 'astro:assets';
+
+const { slug } = Astro.params;
+
+// Crear cliente de Supabase
+const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+// Obtener datos del equipo
+const { data: team, error } = await supabase
+    .from('teams')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+
+if (error || !team) {
+    return Astro.redirect('/404');
+}
+
+// Importar logo del equipo dinámicamente
+const teamLogos = import.meta.glob<{ default: ImageMetadata }>('../../assets/img/spain_*.svg', { eager: true });
+const logoPath = `../../assets/img/spain_${team.slug}.svg`;
+const teamLogo = teamLogos[logoPath];
+
+// Importar imagen del estadio dinámicamente
+const stadiumImages = import.meta.glob<{ default: ImageMetadata }>('../../assets/img/stadiums/*.{jpg,jpeg,png,webp}', { eager: true });
+let stadiumBg = null;
+
+// Intentar cargar imagen del estadio (prueba diferentes extensiones)
+const possibleExtensions = ['png', 'jpg', 'jpeg', 'webp'];
+let stadiumImage = null;
+
+for (const ext of possibleExtensions) {
+    const stadiumPath = `../../assets/img/stadiums/${team.slug}.${ext}`;
+    if (stadiumImages[stadiumPath]) {
+        stadiumImage = stadiumImages[stadiumPath];
+        break;
+    }
+}
+
+// Optimizar imagen si se encontró
+if (stadiumImage) {
+    stadiumBg = await getImage({
+        src: stadiumImage.default,
+        format: 'webp',
+        quality: 85,
+        width: 1920
+    });
+}
+
+// Obtener estadísticas del equipo (número de miembros)
+const { count: membersCount } = await supabase
+    .from('profiles')
+    .select('*', { count: 'exact', head: true })
+    .eq('favorite_team_id', team.id);
+---
+
+<BaseLayout title={`${team.name} - LaLiga Social`}>
+    <Navbar />
+
+    <!-- ==================== TEAM HERO ==================== -->
+    <section class="team-hero" style={stadiumBg ? `--stadium-bg: url(${stadiumBg.src})` : ''}>
+        <div class="team-hero-background parallax-bg">
+            {stadiumBg && (
+                <img
+                    src={stadiumBg.src}
+                    alt={`Estadio ${team.name}`}
+                    class="team-hero-bg-image"
+                    loading="eager"
+                />
+            )}
+            <div class="team-hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="team-hero-content">
+                {teamLogo ? (
+                    <Image
+                        src={teamLogo.default}
+                        alt={team.name}
+                        class="team-hero-logo"
+                        width={180}
+                        height={180}
+                        loading="eager"
+                    />
+                ) : (
+                    <img src={team.logo_url} alt={team.name} class="team-hero-logo">
+                )}
+                <div class="team-hero-info">
+                    <h1 class="team-hero-title">{team.name}</h1>
+                    <div class="team-hero-stats">
+                        <div class="team-stat-item">
+                            <span class="stat-icon" data-icon="users"></span>
+                            <span class="stat-value">{membersCount || 0}</span>
+                            <span class="stat-label">Aficionados</span>
+                        </div>
+                        <div class="team-stat-item">
+                            <span class="stat-icon" data-icon="trophy"></span>
+                            <span class="stat-value" id="team-position">-</span>
+                            <span class="stat-label">Posición</span>
+                        </div>
+                        <div class="team-stat-item">
+                            <span class="stat-icon" data-icon="fire"></span>
+                            <span class="stat-value" id="team-points">-</span>
+                            <span class="stat-label">Puntos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content team-page-content">
+        <div class="container">
+            <div class="team-page-grid">
+
+                <!-- ==================== TEAM CHAT (Exclusivo) ==================== -->
+                <section class="team-chat-section">
+                    <div class="team-chat-header">
+                        <h2 class="section-title">
+                            <span class="title-icon" data-icon="chat"></span>
+                            Chat del Equipo
+                        </h2>
+                        <div class="team-chat-online">
+                            <span class="online-indicator"></span>
+                            <span id="online-count">0</span> online
+                        </div>
+                    </div>
+
+                    <!-- El chat se carga aquí -->
+                    <div id="team-chat-container" data-team-id={team.id} data-team-slug={slug}>
+                        <!-- Populated by TeamChat.js -->
+                    </div>
+                </section>
+
+                <!-- ==================== TEAM SIDEBAR ==================== -->
+                <aside class="team-sidebar">
+
+                    <!-- Clasificación del equipo -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">
+                            <span class="title-icon" data-icon="table"></span>
+                            Clasificación
+                        </h3>
+                        <div id="team-standings-widget">
+                            <div class="standings-skeleton">Cargando...</div>
+                        </div>
+                    </div>
+
+                    <!-- Próximo partido -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">
+                            <span class="title-icon" data-icon="calendar"></span>
+                            Próximo Partido
+                        </h3>
+                        <div id="next-match-widget">
+                            <div class="match-skeleton">Cargando...</div>
+                        </div>
+                    </div>
+
+                    <!-- Top aficionados del equipo -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">
+                            <span class="title-icon" data-icon="star"></span>
+                            Top Aficionados
+                        </h3>
+                        <div id="top-fans-widget">
+                            <div class="fans-skeleton">Cargando...</div>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+
+    <!-- ==================== TEAM DATA (para JS) ==================== -->
+    <script is:inline define:vars={{ team, slug }}>
+        window.TEAM_DATA = {
+            id: team.id,
+            name: team.name,
+            shortName: team.short_name,
+            slug: slug,
+            apiId: team.api_id,
+            logoUrl: team.logo_url
+        };
+    </script>
+
+    <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
+    <script is:inline src="/assets/js/application/components/team/team-chat.js"></script>
+    <script is:inline src="/assets/js/application/components/team/team-standings-widget.js"></script>
+    <script is:inline src="/assets/js/application/components/team/team-next-match-widget.js"></script>
+    <script is:inline src="/assets/js/application/components/team/team-top-fans-widget.js"></script>
+</BaseLayout>

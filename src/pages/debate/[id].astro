@@ -28,8 +28,11 @@ export const prerender = false;
     <Footer />
 
     <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
-    <!-- Shared: Data (required for debate detail) -->
+    <!-- Shared: Data (fallback for debate detail) -->
     <script is:inline src="/assets/js/shared/data/debates.js"></script>
+
+    <!-- Infrastructure: Services (for loading from Supabase) -->
+    <script is:inline src="/assets/js/infrastructure/services/debates-service-global.js"></script>
 
     <!-- Debate Detail Component -->
     <script is:inline src="/assets/js/application/components/debates/debate-detail.js"></script>

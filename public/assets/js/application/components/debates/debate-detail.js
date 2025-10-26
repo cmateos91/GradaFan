@@ -31,19 +31,40 @@ class DebateDetail {
         return params.get('id');
     }
 
-    init() {
-        this.loadDebate();
+    async init() {
+        await this.loadDebate();
     }
 
-    loadDebate() {
-        this.debate = window.DebatesData.getById(this.debateId);
+    async loadDebate() {
+        // Mostrar loading mientras carga
+        this.showLoading();
 
-        if (!this.debate) {
-            this.showError('Debate no encontrado');
-            return;
+        try {
+            // Cargar desde Supabase usando DebatesService
+            if (window.DebatesService) {
+                this.debate = await window.DebatesService.getDebateById(this.debateId);
+            }
+
+            // Fallback a datos estáticos si no hay servicio
+            if (!this.debate && window.DebatesData) {
+                this.debate = window.DebatesData.getById(this.debateId);
+            }
+
+            if (!this.debate) {
+                this.showError('Debate no encontrado');
+                return;
+            }
+
+            // Inicializar comments si no existen
+            if (!this.debate.comments) {
+                this.debate.comments = [];
+            }
+
+            this.render();
+        } catch (error) {
+            console.error('Error loading debate:', error);
+            this.showError('Error al cargar el debate');
         }
-
-        this.render();
     }
 
     render() {
@@ -362,12 +383,21 @@ class DebateDetail {
         return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
     }
 
+    showLoading() {
+        this.container.innerHTML = `
+            <div class="debate-loading">
+                <div class="loading-spinner"></div>
+                <p>Cargando debate...</p>
+            </div>
+        `;
+    }
+
     showError(message) {
         this.container.innerHTML = `
             <div class="debate-error">
                 <h2>Error</h2>
                 <p>${message}</p>
-                <a href="index.html" class="btn-primary">Volver al inicio</a>
+                <a href="/" class="btn-primary">Volver al inicio</a>
             </div>
         `;
     }

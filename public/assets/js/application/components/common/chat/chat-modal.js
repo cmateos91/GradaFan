@@ -463,7 +463,11 @@ class ChatModal {
      * Obtener ID del usuario actual
      */
     getCurrentUserId() {
-        // TODO: Obtener de Supabase auth
+        // Obtener de AuthService si está disponible y autenticado
+        if (window.AuthService && window.AuthService.isAuthenticated && window.AuthService.currentUser) {
+            return window.AuthService.currentUser.id;
+        }
+        // Fallback a usuario temporal
         return sessionStorage.getItem('chatUserId') || this.generateTempUserId();
     }
 
@@ -471,7 +475,11 @@ class ChatModal {
      * Obtener nombre del usuario actual
      */
     getCurrentUsername() {
-        // TODO: Obtener de Supabase auth
+        // Obtener de AuthService si está disponible y autenticado
+        if (window.AuthService && window.AuthService.isAuthenticated && window.AuthService.currentUser) {
+            return window.AuthService.currentUser.username || window.AuthService.currentUser.display_name || 'Usuario';
+        }
+        // Fallback a sesión o anónimo
         return sessionStorage.getItem('chatUsername') || 'Anónimo';
     }
 
@@ -479,7 +487,13 @@ class ChatModal {
      * Obtener avatar del usuario actual
      */
     getCurrentAvatar() {
-        // TODO: Obtener de Supabase auth
+        // Obtener de AuthService si está disponible y autenticado
+        if (window.AuthService && window.AuthService.isAuthenticated && window.AuthService.currentUser) {
+            return window.AuthService.currentUser.avatar_url ||
+                   window.AuthService.currentUser.avatarUrl ||
+                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${window.AuthService.currentUser.id}`;
+        }
+        // Fallback a sesión o avatar temporal
         const userId = this.getCurrentUserId();
         return sessionStorage.getItem('chatAvatar') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
     }

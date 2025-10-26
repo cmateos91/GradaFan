@@ -5,12 +5,14 @@ import { Image } from 'astro:assets';
 const teamLogos = import.meta.glob('../assets/img/spain_*.svg', { eager: true });
 
 // Lista de equipos LaLiga 2025-26 con logos disponibles (alfabéticamente)
+// ✅ Actualizado: Eliminados Las Palmas, Valladolid, Leganés
+// ✅ Añadidos: Elche CF, Levante UD, Real Oviedo
 const teams = [
     { name: 'Athletic Club', slug: 'athletic-club' },
     { name: 'Atlético de Madrid', slug: 'atletico-madrid' },
     { name: 'FC Barcelona', slug: 'barcelona' },
-    { name: 'Celta de Vigo', slug: 'celta' },
-    { name: 'RC Deportivo', slug: 'deportivo' },
+    { name: 'RC Celta de Vigo', slug: 'celta' },
+    { name: 'Deportivo Alavés', slug: 'deportivo' },
     { name: 'Elche CF', slug: 'elche' },
     { name: 'RCD Espanyol', slug: 'espanyol' },
     { name: 'Getafe CF', slug: 'getafe' },
@@ -42,7 +44,7 @@ function getTeamLogo(slug: string) {
             {teams.map(team => {
                 const logo = getTeamLogo(team.slug);
                 return logo ? (
-                    <div class="team-badge-item" data-team-name={team.name} title={team.name}>
+                    <a href={`/equipo/${team.slug}`} class="team-badge-item" data-team-name={team.name} title={team.name}>
                         <Image
                             src={logo.default}
                             alt={team.name}
@@ -51,7 +53,7 @@ function getTeamLogo(slug: string) {
                             height={40}
                             loading="eager"
                         />
-                    </div>
+                    </a>
                 ) : null;
             })}
         </div>

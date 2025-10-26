@@ -1,62 +1,216 @@
 /**
  * ==================== NAVBAR COMPONENT ====================
  * Maneja la funcionalidad de la barra de navegación
- * Dropdown de equipos, scroll effects, user menu
+ * Autenticación, dropdown de usuario, scroll effects
  */
 
 class Navbar {
     constructor() {
         this.navbar = document.getElementById('navbar');
-        this.teamsDropdown = document.getElementById('teams-dropdown');
+        this.authButtons = document.getElementById('authButtons');
+        this.userInfo = document.getElementById('userInfo');
         this.userPoints = document.getElementById('user-points');
+        this.userAvatar = document.getElementById('userAvatarImg');
+        this.userName = document.getElementById('userName');
+        this.userLevel = document.getElementById('userLevel');
         this.lastScrollY = 0;
+
         this.init();
     }
 
-    init() {
+    async init() {
         if (!this.navbar) return;
 
-        // Poblar dropdown de equipos
-        this.populateTeamsDropdown();
+        // Setup auth buttons
+        this.setupAuthButtons();
+
+        // Setup user dropdown
+        this.setupUserDropdown();
+
+        // Escuchar cambios de usuario
+        window.addEventListener('userChanged', (e) => {
+            this.handleUserChanged(e.detail);
+        });
+
+        // Esperar a que AuthService esté listo y haya cargado la sesión
+        await this.waitForAuthService();
+
+        // Cargar estado inicial
+        this.updateUIForCurrentUser();
 
         // Scroll effect
         this.setupScrollEffect();
 
-        // Animación de puntos
-        this.animatePoints();
-
         console.log('✅ Navbar initialized');
     }
 
-    populateTeamsDropdown() {
-        if (!this.teamsDropdown) return;
+    async waitForAuthService() {
+        // Esperar hasta que AuthService esté disponible
+        let attempts = 0;
+        const maxAttempts = 50; // 5 segundos máximo
 
-        // Obtener equipos del data
-        const teams = typeof TEAMS_DATA !== 'undefined' ? TEAMS_DATA : [];
+        while (attempts < maxAttempts) {
+            if (window.AuthService) {
+                // Esperar a que AuthService termine de inicializarse completamente
+                await window.AuthService.waitUntilReady();
+                console.log('✅ AuthService ready and session loaded');
+                return;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
 
-        // Ordenar equipos alfabéticamente por nombre
-        const sortedTeams = [...teams].sort((a, b) => {
-            return a.name.localeCompare(b.name, 'es', { sensitivity: 'base' });
-        });
+        console.warn('⚠️ AuthService timeout');
+    }
 
-        // Generar HTML
-        const html = sortedTeams.map(team => `
-            <a href="#" class="dropdown-item" data-team-id="${team.id}">
-                <img src="${team.logo}" alt="${team.name}" class="team-logo-small">
-                <span>${team.shortName}</span>
-            </a>
-        `).join('');
+    setupAuthButtons() {
+        const btnLogin = document.getElementById('btnLogin');
+        const btnRegister = document.getElementById('btnRegister');
 
-        this.teamsDropdown.innerHTML = html;
-
-        // Event listeners para los items
-        this.teamsDropdown.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                const teamId = parseInt(item.dataset.teamId);
-                this.handleTeamClick(teamId);
+        if (btnLogin) {
+            btnLogin.addEventListener('click', () => {
+                window.dispatchEvent(new CustomEvent('showAuthModal', {
+                    detail: { mode: 'login' }
+                }));
             });
+        }
+
+        if (btnRegister) {
+            btnRegister.addEventListener('click', () => {
+                window.dispatchEvent(new CustomEvent('showAuthModal', {
+                    detail: { mode: 'register' }
+                }));
+            });
+        }
+    }
+
+    setupUserDropdown() {
+        const userAvatar = document.getElementById('user-avatar');
+        const dropdown = document.querySelector('.user-dropdown');
+
+        if (userAvatar && dropdown) {
+            userAvatar.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('active');
+            });
+
+            // Cerrar dropdown al hacer click fuera
+            document.addEventListener('click', () => {
+                dropdown.classList.remove('active');
+            });
+
+            dropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Logout button
+        const btnLogout = document.getElementById('btnLogout');
+        if (btnLogout) {
+            btnLogout.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (window.AuthService) {
+                    await window.AuthService.logout();
+                }
+            });
+        }
+    }
+
+    handleUserChanged(detail) {
+        console.log('📢 Evento userChanged recibido:', detail);
+        const { user, isAuthenticated } = detail;
+
+        if (isAuthenticated && user) {
+            // Usuario autenticado - mostrar info
+            console.log('👤 Actualizando UI para usuario:', user.username);
+            this.showUserInfo(user);
+        } else {
+            // Usuario NO autenticado - mostrar botones
+            console.log('🚪 Usuario no autenticado, mostrando botones');
+            this.showAuthButtons();
+        }
+    }
+
+    updateUIForCurrentUser() {
+        console.log('🔍 Verificando estado de autenticación...', {
+            AuthService: !!window.AuthService,
+            isAuth: window.AuthService?.isAuth(),
+            currentUser: window.AuthService?.getCurrentUser()
         });
+
+        if (window.AuthService && window.AuthService.isAuth()) {
+            const user = window.AuthService.getCurrentUser();
+            console.log('✅ Usuario autenticado, mostrando info:', user?.username);
+            this.showUserInfo(user);
+        } else {
+            console.log('❌ Usuario NO autenticado, mostrando botones');
+            this.showAuthButtons();
+        }
+    }
+
+    showUserInfo(user) {
+        console.log('👁️ showUserInfo llamado:', {
+            user: user?.username,
+            authButtons: !!this.authButtons,
+            userInfo: !!this.userInfo
+        });
+
+        // Ocultar botones de auth
+        if (this.authButtons) {
+            this.authButtons.classList.add('hidden');
+            console.log('✅ Botones de auth ocultos');
+        } else {
+            console.warn('⚠️ authButtons no encontrado');
+        }
+
+        // Mostrar info de usuario
+        if (this.userInfo) {
+            this.userInfo.classList.remove('hidden');
+            console.log('✅ Info de usuario mostrada');
+        } else {
+            console.warn('⚠️ userInfo no encontrado');
+        }
+
+        // Actualizar datos
+        if (this.userName) {
+            this.userName.textContent = user.username;
+        }
+
+        if (this.userLevel) {
+            this.userLevel.textContent = user.level || 'Aficionado';
+        }
+
+        if (this.userPoints) {
+            this.userPoints.textContent = this.formatPoints(user.points || 0);
+        }
+
+        if (this.userAvatar) {
+            this.userAvatar.src = user.avatarUrl;
+            this.userAvatar.alt = user.username;
+        }
+    }
+
+    showAuthButtons() {
+        console.log('🚪 showAuthButtons llamado:', {
+            authButtons: !!this.authButtons,
+            userInfo: !!this.userInfo
+        });
+
+        // Mostrar botones de auth
+        if (this.authButtons) {
+            this.authButtons.classList.remove('hidden');
+            console.log('✅ Botones de auth mostrados');
+        } else {
+            console.warn('⚠️ authButtons no encontrado');
+        }
+
+        // Ocultar info de usuario
+        if (this.userInfo) {
+            this.userInfo.classList.add('hidden');
+            console.log('✅ Info de usuario ocultada');
+        } else {
+            console.warn('⚠️ userInfo no encontrado');
+        }
     }
 
     setupScrollEffect() {
@@ -80,44 +234,7 @@ class Navbar {
             this.navbar.classList.remove('scrolled');
         }
 
-        // Guardar posición anterior
         this.lastScrollY = scrollY;
-    }
-
-    handleTeamClick(teamId) {
-        const team = typeof getTeamById !== 'undefined' ? getTeamById(teamId) : null;
-
-        if (team) {
-            console.log(`Selected team: ${team.name}`);
-            // Aquí iría la lógica para filtrar noticias por equipo
-            // Por ahora solo mostramos en consola
-
-            // Disparar evento personalizado
-            const event = new CustomEvent('teamSelected', {
-                detail: { teamId, team }
-            });
-            document.dispatchEvent(event);
-        }
-    }
-
-    animatePoints() {
-        if (!this.userPoints) return;
-
-        // Animación simple de conteo
-        const targetPoints = parseInt(this.userPoints.textContent.replace(/,/g, ''));
-        let currentPoints = 0;
-        const increment = targetPoints / 50;
-        const duration = 1000;
-        const stepTime = duration / 50;
-
-        const counter = setInterval(() => {
-            currentPoints += increment;
-            if (currentPoints >= targetPoints) {
-                currentPoints = targetPoints;
-                clearInterval(counter);
-            }
-            this.userPoints.textContent = this.formatPoints(Math.floor(currentPoints));
-        }, stepTime);
     }
 
     formatPoints(points) {

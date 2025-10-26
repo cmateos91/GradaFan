@@ -25,13 +25,16 @@
 
 /* ==================== 3. MODULES - Componentes ==================== */
 @import 'components.css';           /* ✅ Refactorizado en módulos (buttons, hero, chat, widgets) */
+@import 'modules/auth.css';
 @import 'modules/chat-modal.css';
 @import 'modules/effects.css';
 @import 'modules/debates.css';
 @import 'modules/teams-bar.css';
 
 /* ==================== 4. PAGES - Específicos ==================== */
-/* Nota: Estos NO se importan aquí, se cargan solo en sus páginas:
+@import 'pages/contact.css';
+@import 'pages/team.css';
+/* Nota: Algunos NO se importan aquí, se cargan solo en sus páginas:
  * - pages/standings.css (solo clasificacion.html)
  * - pages/live-matches.css (solo en-vivo.html)
  * - pages/upcoming-matches.css (solo en-vivo.html)

@@ -51,39 +51,54 @@ class TodayMatchesWidget {
      */
     async loadMatches() {
         try {
-            // Primero intentar obtener partidos en vivo
-            let data = await window.footballAPI.getLiveMatches();
+            const allMatches = [];
 
-            if (!data || !data.matches || data.matches.length === 0) {
-                // Si no hay en vivo, obtener próximos partidos de hoy
-                const allUpcoming = await window.footballAPI.getUpcomingMatches(20);
-
-                if (allUpcoming && allUpcoming.matches) {
-                    // Filtrar solo partidos de hoy
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const tomorrow = new Date(today);
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-
-                    data = {
-                        matches: allUpcoming.matches.filter(match => {
-                            const matchDate = new Date(match.utcDate);
-                            return matchDate >= today && matchDate < tomorrow;
-                        })
-                    };
-                }
+            // 1. Obtener partidos en vivo
+            const liveData = await window.footballAPI.getLiveMatches();
+            if (liveData && liveData.matches && liveData.matches.length > 0) {
+                allMatches.push(...liveData.matches);
             }
 
-            if (data && data.matches && data.matches.length > 0) {
-                this.matches = data.matches;
+            // 2. Obtener próximos partidos de hoy (para incluir los que NO están en vivo)
+            const allUpcoming = await window.footballAPI.getUpcomingMatches(20);
 
-                // Ordenar por likes (mayor a menor) y tomar top 3
-                this.matches.sort((a, b) => {
-                    return this.getMatchLikes(b.id) - this.getMatchLikes(a.id);
+            if (allUpcoming && allUpcoming.matches) {
+                // Filtrar solo partidos de hoy
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+
+                const todayMatches = allUpcoming.matches.filter(match => {
+                    const matchDate = new Date(match.utcDate);
+                    return matchDate >= today && matchDate < tomorrow;
+                });
+
+                // Agregar solo los partidos que no estén ya en la lista (evitar duplicados)
+                todayMatches.forEach(match => {
+                    const exists = allMatches.some(m => m.id === match.id);
+                    if (!exists) {
+                        allMatches.push(match);
+                    }
+                });
+            }
+
+            if (allMatches.length > 0) {
+                // Ordenar: primero los en vivo, luego por hora
+                this.matches = allMatches.sort((a, b) => {
+                    const aIsLive = a.status === 'IN_PLAY' || a.status === 'PAUSED' || a.status === 'HALFTIME';
+                    const bIsLive = b.status === 'IN_PLAY' || b.status === 'PAUSED' || b.status === 'HALFTIME';
+
+                    // Primero ordenar por estado (en vivo primero)
+                    if (aIsLive && !bIsLive) return -1;
+                    if (!aIsLive && bIsLive) return 1;
+
+                    // Si ambos tienen el mismo estado, ordenar por hora
+                    return new Date(a.utcDate) - new Date(b.utcDate);
                 });
 
                 this.render();
-                console.log(`✅ ${this.matches.length} partidos de hoy cargados`);
+                console.log(`✅ ${this.matches.length} partidos de hoy cargados (${allMatches.filter(m => m.status === 'IN_PLAY').length} en vivo)`);
             } else {
                 this.renderNoMatches();
             }

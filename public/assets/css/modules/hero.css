@@ -78,6 +78,7 @@
     min-height: 450px;
     display: flex;
     flex-direction: column;
+    align-self: end;
 }
 
 .hero-card-inner {

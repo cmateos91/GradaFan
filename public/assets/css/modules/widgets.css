@@ -143,6 +143,33 @@
     margin: 0;
 }
 
+.team-stats-mini {
+    display: flex;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    margin-top: var(--spacing-xs);
+}
+
+.team-stats-mini span {
+    font-weight: var(--font-weight-medium);
+}
+
+.no-team-selected {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    text-align: center;
+}
+
+.no-team-message {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
 /* ========== TODAY MATCHES WIDGET ========== */
 
 .match-item {
@@ -294,4 +321,212 @@
     text-align: center;
     color: var(--color-text-tertiary);
     font-size: var(--font-size-sm);
+}
+
+/* ========== TEAM WIDGETS ========== */
+
+/* Mini Standings Table */
+.mini-standings-table {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+.mini-standings-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+}
+
+.mini-standings-row.highlight {
+    background: rgba(0, 255, 136, 0.1);
+    border-left: 3px solid var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.mini-position {
+    width: 24px;
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-weight: var(--font-weight-bold);
+}
+
+.mini-team-name {
+    flex: 1;
+    color: var(--color-text-secondary);
+}
+
+.mini-points {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.widget-link {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    margin-top: var(--spacing-sm);
+}
+
+.widget-link:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+/* Next Match Card */
+.next-match-card {
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+}
+
+.match-date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--spacing-md);
+}
+
+.match-teams {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.match-teams .team-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.match-teams .vs {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.match-venue {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-xs);
+}
+
+.match-competition {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+/* Top Fans List */
+.top-fans-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.fan-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--border-radius-md);
+    transition: background var(--transition-fast);
+}
+
+.fan-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.fan-rank {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary);
+    color: var(--color-background);
+    border-radius: 50%;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+}
+
+.fan-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius-full);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.fan-info {
+    flex: 1;
+}
+
+.fan-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+.fan-points {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+/* Widget States */
+.widget-empty,
+.widget-error {
+    padding: var(--spacing-lg);
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
+}
+
+.widget-error {
+    color: #ff4444;
+}
+
+.standings-skeleton,
+.match-skeleton,
+.fans-skeleton {
+    padding: var(--spacing-lg);
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-sm);
+}
+
+/* Match Teams with Badges */
+.match-teams-with-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.match-team-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.match-team-badge {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.match-teams-with-badges .vs {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    font-weight: var(--font-weight-bold);
 }

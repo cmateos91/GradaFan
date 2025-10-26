@@ -112,6 +112,9 @@
     border: 2px solid transparent;
     /* Importante: forzar que no se expanda */
     position: relative;
+    /* Estilos para el enlace */
+    text-decoration: none;
+    color: inherit;
 }
 
 .team-badge-item:hover {
@@ -120,6 +123,11 @@
     box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
     /* Asegurar que el scale no afecte el layout */
     z-index: 10;
+}
+
+.team-badge-item:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 .team-badge-img {

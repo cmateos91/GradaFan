@@ -15,7 +15,11 @@
       "Bash(npm install)",
       "Bash(git commit:*)",
       "Bash(find:*)",
-      "Bash(xargs sed:*)"
+      "Bash(xargs sed:*)",
+      "Bash(git branch:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(npm run dev:*)",
+      "Bash(dir \"c:\\Users\\cmate\\Documents\\Proyectos\\LaLiga-Social\\public\\assets\\img\\stadiums\")"
     ],
     "deny": [],
     "ask": []

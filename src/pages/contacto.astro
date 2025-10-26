@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import TeamsBar from '../components/TeamsBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+    title="Contacto - LaLiga Social"
+    description="Propón mejoras o informa sobre errores en LaLiga Social"
+    keywords="contacto, soporte, mejoras, errores, feedback">
+
+    <Navbar />
+    <TeamsBar />
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="contact-page">
+                <!-- Header -->
+                <div class="contact-header">
+                    <h1 class="contact-title">Contacto</h1>
+                    <p class="contact-subtitle">
+                        ¿Tienes alguna sugerencia o has encontrado un error?
+                        Nos encantaría escucharte para mejorar LaLiga Social.
+                    </p>
+                </div>
+
+                <!-- Contact Grid -->
+                <div class="contact-grid">
+                    <!-- Formulario -->
+                    <div class="contact-form-section">
+                        <div class="form-card">
+                            <h2 class="form-title">Envíanos tu mensaje</h2>
+
+                            <form id="contactForm" class="contact-form">
+                                <!-- Tipo de mensaje -->
+                                <div class="form-group">
+                                    <label for="messageType">Tipo de mensaje *</label>
+                                    <select id="messageType" name="messageType" class="form-select" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="mejora">💡 Propuesta de mejora</option>
+                                        <option value="error">🐛 Reporte de error</option>
+                                        <option value="pregunta">❓ Pregunta</option>
+                                        <option value="otro">💬 Otro</option>
+                                    </select>
+                                </div>
+
+                                <!-- Nombre -->
+                                <div class="form-group">
+                                    <label for="name">Nombre *</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        class="form-input"
+                                        placeholder="Tu nombre o apodo"
+                                        required
+                                        maxlength="100"
+                                    >
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label for="email">Email *</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        class="form-input"
+                                        placeholder="tu@email.com"
+                                        required
+                                    >
+                                    <div class="form-hint">No compartiremos tu email con terceros</div>
+                                </div>
+
+                                <!-- Asunto -->
+                                <div class="form-group">
+                                    <label for="subject">Asunto *</label>
+                                    <input
+                                        type="text"
+                                        id="subject"
+                                        name="subject"
+                                        class="form-input"
+                                        placeholder="Resumen breve del mensaje"
+                                        required
+                                        maxlength="150"
+                                    >
+                                </div>
+
+                                <!-- Mensaje -->
+                                <div class="form-group">
+                                    <label for="message">Mensaje *</label>
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        class="form-textarea"
+                                        placeholder="Describe tu propuesta o el error encontrado con el mayor detalle posible..."
+                                        rows="6"
+                                        required
+                                        maxlength="2000"
+                                    ></textarea>
+                                    <div class="form-hint">
+                                        <span id="charCount">0</span>/2000 caracteres
+                                    </div>
+                                </div>
+
+                                <!-- Mensaje de error/éxito -->
+                                <div class="form-message" id="formMessage" style="display: none;"></div>
+
+                                <!-- Botones -->
+                                <div class="form-actions">
+                                    <button type="button" class="btn-secondary" id="resetBtn">
+                                        Limpiar
+                                    </button>
+                                    <button type="submit" class="btn-primary" id="submitBtn">
+                                        <span class="btn-text">Enviar mensaje</span>
+                                        <span class="btn-loading" style="display: none;">
+                                            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10" opacity="0.25"/>
+                                                <path d="M12 2a10 10 0 0 1 10 10" opacity="0.75"/>
+                                            </svg>
+                                            Enviando...
+                                        </span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Información adicional -->
+                    <div class="contact-info-section">
+                        <!-- Tarjeta de info -->
+                        <div class="info-card">
+                            <h3 class="info-title">💡 Consejos para reportar</h3>
+                            <ul class="info-list">
+                                <li>
+                                    <strong>Errores:</strong> Describe qué estabas haciendo cuando ocurrió el error
+                                </li>
+                                <li>
+                                    <strong>Mejoras:</strong> Explica cómo crees que podría mejorar la experiencia
+                                </li>
+                                <li>
+                                    <strong>Capturas:</strong> Si es posible, describe lo que ves en pantalla
+                                </li>
+                                <li>
+                                    <strong>Navegador:</strong> Menciona qué navegador y dispositivo usas
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Estadísticas -->
+                        <div class="info-card stats-card">
+                            <h3 class="info-title">📊 Nuestro compromiso</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item-contact">
+                                    <div class="stat-number-contact">< 24h</div>
+                                    <div class="stat-label-contact">Tiempo de respuesta</div>
+                                </div>
+                                <div class="stat-item-contact">
+                                    <div class="stat-number-contact">100%</div>
+                                    <div class="stat-label-contact">Mensajes leídos</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Redes sociales (placeholder) -->
+                        <div class="info-card">
+                            <h3 class="info-title">🌐 Otras formas de contacto</h3>
+                            <p class="info-text">
+                                También puedes seguirnos en nuestras redes sociales
+                                para estar al día de las novedades:
+                            </p>
+                            <div class="social-buttons">
+                                <a href="#" class="social-btn" aria-label="Twitter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                                    </svg>
+                                    Twitter
+                                </a>
+                                <a href="#" class="social-btn" aria-label="GitHub">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                                    </svg>
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <Footer />
+
+    <!-- ==================== PAGE-SPECIFIC SCRIPTS ==================== -->
+    <script is:inline src="/assets/js/application/components/contact/contact-form.js"></script>
+</BaseLayout>

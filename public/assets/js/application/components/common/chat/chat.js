@@ -79,12 +79,17 @@ class LiveChat {
 
         if (messageText === '') return;
 
+        // Obtener datos del usuario autenticado
+        const userId = this.getCurrentUserId();
+        const username = this.getCurrentUsername();
+        const avatar = this.getCurrentAvatar();
+
         // Crear mensaje del usuario actual
         const message = {
             id: Date.now(),
-            userId: 1,
-            username: 'Tú',
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=CurrentUser',
+            userId: userId,
+            username: username,
+            avatar: avatar,
             message: messageText,
             timestamp: new Date(),
             likes: 0,
@@ -99,6 +104,54 @@ class LiveChat {
 
         // Scroll al final
         this.scrollToBottom();
+    }
+
+    /**
+     * Obtener ID del usuario actual
+     */
+    getCurrentUserId() {
+        // Obtener de AuthService si está disponible y autenticado
+        if (window.AuthService && window.AuthService.isAuthenticated && window.AuthService.currentUser) {
+            return window.AuthService.currentUser.id;
+        }
+        // Fallback a usuario temporal
+        return sessionStorage.getItem('chatUserId') || this.generateTempUserId();
+    }
+
+    /**
+     * Obtener nombre del usuario actual
+     */
+    getCurrentUsername() {
+        // Obtener de AuthService si está disponible y autenticado
+        if (window.AuthService && window.AuthService.isAuthenticated && window.AuthService.currentUser) {
+            return window.AuthService.currentUser.username || window.AuthService.currentUser.display_name || 'Usuario';
+        }
+        // Fallback a anónimo
+        return 'Anónimo';
+    }
+
+    /**
+     * Obtener avatar del usuario actual
+     */
+    getCurrentAvatar() {
+        // Obtener de AuthService si está disponible y autenticado
+        if (window.AuthService && window.AuthService.isAuthenticated && window.AuthService.currentUser) {
+            return window.AuthService.currentUser.avatar_url ||
+                   window.AuthService.currentUser.avatarUrl ||
+                   `https://api.dicebear.com/7.x/avataaars/svg?seed=${window.AuthService.currentUser.id}`;
+        }
+        // Fallback a avatar temporal
+        const userId = this.getCurrentUserId();
+        return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+    }
+
+    /**
+     * Generar ID temporal de usuario
+     */
+    generateTempUserId() {
+        const tempId = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        sessionStorage.setItem('chatUserId', tempId);
+        return tempId;
     }
 
     addMessage(message, animate = true) {
