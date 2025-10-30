@@ -22,6 +22,10 @@ class ChatModal {
         this.reconnectAttempts = 0;
         this.maxReconnectAttempts = 5;
 
+        // Presencia en tiempo real
+        this.presenceChannel = null;
+        this.heroOnlineCountEl = document.getElementById('hero-online-count');
+
         this.init();
     }
 
@@ -37,6 +41,9 @@ class ChatModal {
 
         // Sincronizar con chat del hero si existe
         this.syncWithHeroChat();
+
+        // Inicializar presencia en tiempo real
+        this.initPresence();
 
         console.log('✅ Chat Modal (SSE) initialized');
     }
@@ -507,7 +514,75 @@ class ChatModal {
         return tempId;
     }
 
-    destroy() {
+    /**
+     * Inicializar sistema de presencia en tiempo real con Supabase
+     */
+    async initPresence() {
+        if (!window.supabase) {
+            console.error('⚠️ Supabase no disponible para presencia');
+            return;
+        }
+
+        try {
+            // Crear canal de presencia global para el hero chat
+            const channelName = 'hero-chat:presence';
+
+            this.presenceChannel = window.supabase.channel(channelName, {
+                config: {
+                    presence: {
+                        key: `user-${Date.now()}-${Math.random()}`
+                    }
+                }
+            });
+
+            // Suscribirse a cambios de presencia
+            this.presenceChannel
+                .on('presence', { event: 'sync' }, () => {
+                    const state = this.presenceChannel.presenceState();
+                    const onlineUsers = Object.keys(state).length;
+                    this.updateOnlineCount(onlineUsers);
+                })
+                .on('presence', { event: 'join' }, ({ key }) => {
+                    console.log('👋 Usuario entró al hero chat:', key);
+                })
+                .on('presence', { event: 'leave' }, ({ key }) => {
+                    console.log('👋 Usuario salió del hero chat:', key);
+                })
+                .subscribe(async (status) => {
+                    if (status === 'SUBSCRIBED') {
+                        // Enviar presencia del usuario actual
+                        const presenceData = {
+                            online_at: new Date().toISOString()
+                        };
+
+                        await this.presenceChannel.track(presenceData);
+                        console.log(`✅ Presencia activada en ${channelName}`);
+                    }
+                });
+
+        } catch (error) {
+            console.error('Error inicializando presencia del hero:', error);
+        }
+    }
+
+    /**
+     * Actualizar contador de usuarios online
+     */
+    updateOnlineCount(count) {
+        if (this.heroOnlineCountEl) {
+            this.heroOnlineCountEl.textContent = count;
+            console.log(`👥 ${count} usuarios online en hero chat`);
+        }
+    }
+
+    async destroy() {
+        // Cerrar canal de presencia
+        if (this.presenceChannel) {
+            await this.presenceChannel.untrack();
+            await this.presenceChannel.unsubscribe();
+            this.presenceChannel = null;
+        }
+
         if (this.eventSource) {
             this.eventSource.close();
             this.eventSource = null;
@@ -536,5 +611,12 @@ if (typeof document !== 'undefined') {
 
         // Hacer accesible globalmente
         window.chatModal = chatModal;
+    });
+
+    // Limpiar presencia cuando el usuario cierre la página
+    window.addEventListener('beforeunload', () => {
+        if (chatModal) {
+            chatModal.destroy();
+        }
     });
 }
