@@ -10,7 +10,7 @@
     /**
      * Aplicación Principal
      */
-    class LaLigaSocialApp {
+    class GradaFanApp {
         constructor() {
             this.isInitialized = false;
             this.components = {};
@@ -43,7 +43,7 @@
          * Inicializar la aplicación
          */
         async init() {
-            console.log('🚀 Initializing LaLiga Social...');
+            console.log('🚀 Initializing GradaFan...');
 
             // Forzar posición inicial
             window.scrollTo(0, 0);
@@ -75,7 +75,7 @@
             // Marcar como inicializado
             this.isInitialized = true;
 
-            console.log('✅ LaLiga Social initialized successfully!');
+            console.log('✅ GradaFan initialized successfully!');
             this.showWelcomeMessage();
         }
 
@@ -212,16 +212,16 @@
                 'border: 2px solid #00ff88'
             ].join(';');
 
-            console.log('%c⚽ LaLiga Social - Red Social de Fútbol', styles);
-            console.log('%cVersión: 1.0.0', 'color: #00ff88');
-            console.log('%cDesarrollado con efectos modernos de portfolio', 'color: #a0a0a0');
+            console.log('%c⚽ GradaFan - Tu Comunidad de Fútbol', styles);
+            console.log('%cVersión: 2.0.0', 'color: #00ff88');
+            console.log('%cLa red social donde los aficionados se reúnen', 'color: #a0a0a0');
             console.log(' ');
             console.log('Características:');
-            console.log('• Smooth Scroll con Lenis');
-            console.log('• 3D Tilt Cards');
-            console.log('• Chat en Vivo');
+            console.log('• Chat Exclusivo por Equipos');
+            console.log('• Debates en Tiempo Real');
             console.log('• Sistema de Puntos');
-            console.log('• Noticias en Tiempo Real');
+            console.log('• Noticias y Partidos en Vivo');
+            console.log('• Comunidad de Aficionados');
         }
 
         /**
@@ -259,12 +259,12 @@
     }
 
     // Crear e iniciar la aplicación
-    window.laLigaSocialApp = new LaLigaSocialApp();
+    window.gradaFanApp = new GradaFanApp();
 
     // Exponer utilidades globalmente si son necesarias
-    window.LaLigaSocial = {
-        formatNumber: LaLigaSocialApp.formatNumber,
-        formatRelativeTime: LaLigaSocialApp.formatRelativeTime
+    window.GradaFan = {
+        formatNumber: GradaFanApp.formatNumber,
+        formatRelativeTime: GradaFanApp.formatRelativeTime
     };
 
 })();

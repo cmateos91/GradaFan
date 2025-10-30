@@ -1,7 +1,7 @@
 {
-  "name": "laliga-social",
+  "name": "gradafan",
   "version": "2.0.0",
-  "description": "LaLiga Social - Red social de noticias de fútbol español con Astro",
+  "description": "GradaFan - La comunidad donde los aficionados se reúnen",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
