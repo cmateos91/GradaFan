@@ -35,7 +35,7 @@
     height: 100%;
     object-fit: cover;
     object-position: center bottom;
-    filter: brightness(0.4);
+    filter: brightness(0.6);
 }
 
 .team-hero-overlay {
