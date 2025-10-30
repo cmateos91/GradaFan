@@ -49,6 +49,14 @@
     gap: var(--spacing-sm);
 }
 
+.logo-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    /* Aplicar color verde de la marca #00ff88 */
+    filter: brightness(0) saturate(100%) invert(85%) sepia(52%) saturate(2295%) hue-rotate(85deg) brightness(103%) contrast(101%);
+}
+
 .logo-text {
     display: flex;
     align-items: center;
