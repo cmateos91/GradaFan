@@ -127,6 +127,14 @@
     align-items: start;
 }
 
+/* ========== TEAM MAIN COLUMN ========== */
+
+.team-main-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
 /* ========== TEAM CHAT SECTION ========== */
 
 .team-chat-section {

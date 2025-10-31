@@ -10,6 +10,8 @@ class LiveMatches {
         this.isLoading = false;
         this.error = null;
         this.updateInterval = null;
+        this.currentFetchController = null;
+        this.isPageVisible = true;
     }
 
     /**
@@ -28,6 +30,9 @@ class LiveMatches {
 
         // Actualizar cada 60 segundos
         this.startAutoUpdate();
+
+        // Pausar/reanudar en base a visibilidad de la pestaña
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
     }
 
     /**
@@ -39,10 +44,32 @@ class LiveMatches {
         this.isLoading = true;
 
         try {
+            // Cancelar solicitud anterior si existe
+            if (this.currentFetchController) {
+                this.currentFetchController.abort();
+            }
+            this.currentFetchController = new AbortController();
+
+            // footballAPI no acepta signal; hacemos fetch directo cuando sea necesario
             const data = await window.footballAPI.getLiveMatches();
 
             if (data && data.matches) {
-                this.matches = data.matches;
+                const nextMatches = data.matches;
+
+                // Si no hay partidos, renderizar explícitamente el estado vacío
+                if (!nextMatches || nextMatches.length === 0) {
+                    this.matches = [];
+                    this.error = null;
+                    this.renderNoMatches();
+                    return;
+                }
+
+                // Evitar re-render si no hay cambios relevantes (id y marcador)
+                if (!this.hasMeaningfulChanges(this.matches, nextMatches)) {
+                    return;
+                }
+
+                this.matches = nextMatches;
                 this.error = null;
                 this.render();
                 console.log(`✅ ${this.matches.length} partidos en vivo cargados`);
@@ -52,11 +79,15 @@ class LiveMatches {
             }
 
         } catch (error) {
+            if (error.name === 'AbortError') {
+                return; // solicitud anterior cancelada
+            }
             console.error('❌ Error loading live matches:', error);
             this.error = error.message;
             this.showError();
         } finally {
             this.isLoading = false;
+            this.currentFetchController = null;
         }
     }
 
@@ -66,7 +97,7 @@ class LiveMatches {
     startAutoUpdate() {
         // Actualizar cada 60 segundos
         this.updateInterval = setInterval(() => {
-            console.log('🔄 Actualizando partidos en vivo...');
+            if (!this.isPageVisible) return;
             this.loadMatches();
         }, 60000); // 60 segundos
     }
@@ -79,6 +110,24 @@ class LiveMatches {
             clearInterval(this.updateInterval);
             this.updateInterval = null;
         }
+    }
+
+    handleVisibilityChange = () => {
+        this.isPageVisible = !document.hidden;
+        if (this.isPageVisible) {
+            // Refrescar inmediatamente al volver a estar visible
+            this.loadMatches();
+        }
+    }
+
+    hasMeaningfulChanges(prevMatches, nextMatches) {
+        if (!prevMatches || prevMatches.length !== nextMatches.length) return true;
+
+        const toKey = (m) => `${m.id}:${m?.score?.fullTime?.home ?? ''}-${m?.score?.fullTime?.away ?? ''}:${m.status}`;
+
+        const prevKeys = prevMatches.map(toKey).join('|');
+        const nextKeys = nextMatches.map(toKey).join('|');
+        return prevKeys !== nextKeys;
     }
 
     /**
@@ -256,6 +305,11 @@ class LiveMatches {
      */
     destroy() {
         this.stopAutoUpdate();
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        if (this.currentFetchController) {
+            this.currentFetchController.abort();
+            this.currentFetchController = null;
+        }
     }
 }
 

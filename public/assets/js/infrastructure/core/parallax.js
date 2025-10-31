@@ -80,17 +80,20 @@ class ParallaxEffect {
             if (rect.top < windowHeight + 200 && rect.bottom > -200) {
                 // Calcular offset basado en la posición del elemento
                 const centerOffset = (rect.top + rect.height / 2) - (windowHeight / 2);
-                const offset = centerOffset * speed;
+                const rawOffset = centerOffset * speed;
+                // Limitar el desplazamiento para evitar "estiramiento" visual en el borde superior
+                const offset = Math.max(Math.min(rawOffset, 40), -40);
 
-                // Aplicar transformación
-                element.style.transform = `translateY(${offset}px)`;
-
-                // Para imágenes dentro de elementos parallax, aplicar también
                 if (type === 'background') {
+                    // Mantener el contenedor fijo y mover solo la imagen interna
                     const img = element.querySelector('img');
                     if (img) {
                         img.style.transform = `translateY(${offset}px)`;
+                        img.style.willChange = 'transform';
                     }
+                } else {
+                    // Para elementos no de fondo, permitir el transform del contenedor
+                    element.style.transform = `translateY(${offset}px)`;
                 }
             }
         });

@@ -1,0 +1,108 @@
+---
+/**
+ * Widget de Multimedia del Equipo
+ * Muestra enlaces a canales de YouTube, radios, podcasts, etc.
+ */
+import { createClient } from '@supabase/supabase-js';
+import AudioPlayer from './AudioPlayer.astro';
+
+interface Props {
+    teamId: number;
+}
+
+const { teamId } = Astro.props;
+
+// Crear cliente de Supabase
+const supabase = createClient(
+    import.meta.env.PUBLIC_SUPABASE_URL,
+    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+// Obtener contenido multimedia del equipo desde Supabase
+const { data: multimediaItems } = await supabase
+    .from('team_multimedia')
+    .select('*')
+    .eq('team_id', teamId)
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
+
+// Función para obtener icono según el tipo
+function getIcon(type: string): string {
+    const icons: Record<string, string> = {
+        'youtube_video': '🎥',
+        'youtube_channel': '📺',
+        'radio_stream': '📻',
+        'podcast': '🎙️',
+        'twitch_channel': '🎮'
+    };
+    return icons[type] || '📺';
+}
+
+// Función para obtener clase CSS según el tipo
+function getIconClass(type: string): string {
+    if (type.includes('youtube')) return 'youtube';
+    if (type.includes('radio')) return 'radio';
+    if (type.includes('podcast')) return 'podcast';
+    if (type.includes('twitch')) return 'twitch';
+    return 'youtube';
+}
+---
+
+<section class="multimedia-widget widget">
+    <h3 class="widget-title">
+        <span class="title-icon" data-icon="play-circle"></span>
+        Multimedia
+    </h3>
+
+    {multimediaItems && multimediaItems.length > 0 ? (
+        <div class="multimedia-list">
+            {multimediaItems.map((item) => (
+                <>
+                    {/* Si es radio con stream_url, mostrar reproductor inline */}
+                    {item.type === 'radio_stream' && item.stream_url ? (
+                        <AudioPlayer
+                            streamUrl={item.stream_url}
+                            title={item.title}
+                            id={`radio-${item.id}`}
+                        />
+                    ) : (
+                        /* En caso contrario, mostrar enlace externo normal */
+                        <a
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="multimedia-item"
+                            title={item.description || item.title}
+                        >
+                            <div class={`multimedia-icon ${getIconClass(item.type)}`}>
+                                {getIcon(item.type)}
+                            </div>
+                            <div class="multimedia-content">
+                                <div class="multimedia-title">
+                                    {item.title}
+                                    {item.is_live && (
+                                        <span class="live-badge">
+                                            <span class="live-dot"></span>
+                                            LIVE
+                                        </span>
+                                    )}
+                                </div>
+                                {item.description && (
+                                    <div class="multimedia-description">
+                                        {item.description}
+                                    </div>
+                                )}
+                            </div>
+                            <span class="multimedia-arrow">→</span>
+                        </a>
+                    )}
+                </>
+            ))}
+        </div>
+    ) : (
+        <div class="multimedia-empty">
+            <div class="multimedia-empty-icon">📺</div>
+            <p>No hay contenido multimedia disponible</p>
+        </div>
+    )}
+</section>

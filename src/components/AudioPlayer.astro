@@ -1,0 +1,217 @@
+---
+/**
+ * Audio Player Component
+ * Reproductor inline para streams de radio en vivo
+ */
+
+interface Props {
+    streamUrl: string;
+    title: string;
+    id: string;
+}
+
+const { streamUrl, title, id } = Astro.props;
+const playerId = `audio-player-${id}`;
+---
+
+<div class="audio-player" data-player-id={playerId} data-stream-url={streamUrl}>
+    <audio id={playerId} preload="none" controls={false}>
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <div class="audio-player-controls">
+        <button class="audio-play-btn" data-audio-id={playerId} title="Reproducir">
+            <span class="play-icon">▶</span>
+            <span class="pause-icon" style="display: none;">⏸</span>
+        </button>
+
+        <div class="audio-info">
+            <div class="audio-status">🔴 EN DIRECTO</div>
+            <div class="audio-title">{title}</div>
+        </div>
+
+        <div class="audio-volume-control">
+            <button class="volume-btn" data-audio-id={playerId} title="Silenciar">
+                <span class="volume-on">🔊</span>
+                <span class="volume-off" style="display: none;">🔇</span>
+            </button>
+            <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="100"
+                value="70"
+                data-audio-id={playerId}
+                title="Volumen"
+            >
+        </div>
+    </div>
+
+    <div class="audio-loading" style="display: none;">
+        <span class="loading-spinner">⏳</span> Cargando stream...
+    </div>
+</div>
+
+<!-- HLS.js library from CDN -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+    // Audio Player Logic with HLS.js support
+    document.addEventListener('DOMContentLoaded', () => {
+        const players = document.querySelectorAll('.audio-player');
+
+        players.forEach((playerContainer, index) => {
+            const playerId = playerContainer.dataset.playerId;
+            const streamUrl = playerContainer.dataset.streamUrl;
+
+            const audio = document.getElementById(playerId);
+            const playBtn = playerContainer.querySelector('.audio-play-btn');
+            const volumeBtn = playerContainer.querySelector('.volume-btn');
+            const volumeSlider = playerContainer.querySelector('.volume-slider');
+            const loadingEl = playerContainer.querySelector('.audio-loading');
+
+            if (!audio || !playBtn) return;
+
+            let hls = null;
+
+            // Inicializar HLS.js si el navegador lo necesita
+            if (streamUrl && streamUrl.includes('.m3u8')) {
+                if (window.Hls && window.Hls.isSupported()) {
+                    hls = new window.Hls({
+                        debug: false,
+                        enableWorker: true,
+                        lowLatencyMode: true,
+                        backBufferLength: 90
+                    });
+
+                    hls.loadSource(streamUrl);
+                    hls.attachMedia(audio);
+
+                    hls.on(window.Hls.Events.ERROR, (event, data) => {
+                        if (data.fatal) {
+                            switch (data.type) {
+                                case window.Hls.ErrorTypes.NETWORK_ERROR:
+                                    hls.startLoad();
+                                    break;
+                                case window.Hls.ErrorTypes.MEDIA_ERROR:
+                                    hls.recoverMediaError();
+                                    break;
+                                default:
+                                    loadingEl.innerHTML = '<span style="color: #ff4444;">❌ Error al cargar el stream</span>';
+                                    loadingEl.style.display = 'flex';
+                                    hls.destroy();
+                                    break;
+                            }
+                        }
+                    });
+                } else if (audio.canPlayType('application/vnd.apple.mpegurl')) {
+                    audio.src = streamUrl;
+                } else {
+                    loadingEl.innerHTML = '<span style="color: #ff4444;">❌ Tu navegador no soporta este formato</span>';
+                    loadingEl.style.display = 'flex';
+                    return;
+                }
+            } else {
+                audio.src = streamUrl;
+            }
+
+            // Configurar volumen inicial
+            audio.volume = 0.7;
+
+            // Play/Pause
+            playBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    // Pausar todos los demás audios
+                    document.querySelectorAll('audio').forEach(a => {
+                        if (a !== audio) a.pause();
+                    });
+
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            loadingEl.innerHTML = `<span style="color: #ff4444;">❌ Error: ${error.message}</span>`;
+                            loadingEl.style.display = 'flex';
+                        });
+                    }
+                } else {
+                    audio.pause();
+                }
+            });
+
+            // Actualizar UI cuando cambia el estado
+            audio.addEventListener('play', () => {
+                playBtn.querySelector('.play-icon').style.display = 'none';
+                playBtn.querySelector('.pause-icon').style.display = 'inline';
+                playBtn.classList.add('playing');
+            });
+
+            audio.addEventListener('pause', () => {
+                playBtn.querySelector('.play-icon').style.display = 'inline';
+                playBtn.querySelector('.pause-icon').style.display = 'none';
+                playBtn.classList.remove('playing');
+                loadingEl.style.display = 'none';
+            });
+
+            // Mostrar loading
+            audio.addEventListener('waiting', () => {
+                loadingEl.style.display = 'flex';
+            });
+
+            audio.addEventListener('canplay', () => {
+                loadingEl.style.display = 'none';
+            });
+
+            // Control de volumen
+            if (volumeBtn) {
+                volumeBtn.addEventListener('click', () => {
+                    audio.muted = !audio.muted;
+                    updateVolumeUI();
+                });
+            }
+
+            if (volumeSlider) {
+                volumeSlider.addEventListener('input', (e) => {
+                    audio.volume = e.target.value / 100;
+                    audio.muted = false;
+                    updateVolumeUI();
+                });
+            }
+
+            function updateVolumeUI() {
+                const volumeOn = volumeBtn?.querySelector('.volume-on');
+                const volumeOff = volumeBtn?.querySelector('.volume-off');
+
+                if (audio.muted || audio.volume === 0) {
+                    volumeOn.style.display = 'none';
+                    volumeOff.style.display = 'inline';
+                } else {
+                    volumeOn.style.display = 'inline';
+                    volumeOff.style.display = 'none';
+                }
+            }
+
+            // Error handling
+            audio.addEventListener('error', (e) => {
+                const error = audio.error;
+                let errorMessage = 'Error al cargar el stream';
+
+                if (error) {
+                    switch (error.code) {
+                        case MediaError.MEDIA_ERR_NETWORK:
+                            errorMessage = 'Error de red';
+                            break;
+                        case MediaError.MEDIA_ERR_DECODE:
+                            errorMessage = 'Error de decodificación';
+                            break;
+                        case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                            errorMessage = 'Formato no soportado';
+                            break;
+                    }
+                }
+
+                loadingEl.innerHTML = `<span style="color: #ff4444;">❌ ${errorMessage}</span>`;
+                loadingEl.style.display = 'flex';
+            });
+        });
+    });
+</script>

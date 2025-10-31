@@ -9,6 +9,7 @@ class UpcomingMatches {
         this.matches = [];
         this.isLoading = false;
         this.error = null;
+        this.debug = false;
     }
 
     /**
@@ -20,7 +21,7 @@ class UpcomingMatches {
             return;
         }
 
-        console.log('📅 Initializing Upcoming Matches Component');
+        if (this.debug) console.log('📅 Initializing Upcoming Matches Component');
         await this.loadMatches();
     }
 
@@ -37,10 +38,15 @@ class UpcomingMatches {
             const data = await window.footballAPI.getUpcomingMatches(10);
 
             if (data && data.matches) {
-                this.matches = data.matches;
+                const nextMatches = data.matches;
+                if (!this.hasMeaningfulChanges(this.matches, nextMatches)) {
+                    this.isLoading = false;
+                    return;
+                }
+                this.matches = nextMatches;
                 this.error = null;
                 this.render();
-                console.log(`✅ ${this.matches.length} próximos partidos cargados`);
+                if (this.debug) console.log(`✅ ${this.matches.length} próximos partidos cargados`);
             } else {
                 this.matches = [];
                 this.renderNoMatches();
@@ -137,14 +143,14 @@ class UpcomingMatches {
             }, 10);
         }
 
-        console.log(`Like toggled for match ${matchId}`);
+        if (this.debug) console.log(`Like toggled for match ${matchId}`);
     }
 
     /**
      * Manejar comentario
      */
     handleComment(matchId) {
-        console.log(`Open comments for match ${matchId}`);
+        if (this.debug) console.log(`Open comments for match ${matchId}`);
         // Aquí se podría abrir un modal de comentarios
         alert('Funcionalidad de comentarios próximamente');
     }
@@ -207,6 +213,14 @@ class UpcomingMatches {
                 </div>
             </div>
         `;
+    }
+
+    hasMeaningfulChanges(prevMatches, nextMatches) {
+        if (!prevMatches || prevMatches.length !== nextMatches.length) return true;
+        const toKey = (m) => `${m.id}:${new Date(m.utcDate).getTime()}`;
+        const prevKeys = prevMatches.map(toKey).join('|');
+        const nextKeys = nextMatches.map(toKey).join('|');
+        return prevKeys !== nextKeys;
     }
 
     /**

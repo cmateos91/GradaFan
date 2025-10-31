@@ -110,7 +110,7 @@ class Sidebar {
                      class="user-avatar-small">
                 <div class="user-info">
                     <div class="user-name">${user.displayName}</div>
-                    <div class="user-points-small">${typeof getIcon !== 'undefined' ? getIcon('star', 'inline-icon') : '⭐'} ${this.formatNumber(user.points)}</div>
+                <div class="user-points-small">${typeof getIcon !== 'undefined' ? getIcon('star', 'inline-icon') : '⭐'} ${this.formatNumber(user.points)}</div>
                 </div>
                 <div class="user-rank">#${index + 1}</div>
             </div>

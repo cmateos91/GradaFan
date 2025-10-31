@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
+import MultimediaWidget from '../../components/MultimediaWidget.astro';
 import { createClient } from '@supabase/supabase-js';
 import { Image, getImage } from 'astro:assets';
 
@@ -121,24 +122,30 @@ const { count: membersCount } = await supabase
         <div class="container">
             <div class="team-page-grid">
 
-                <!-- ==================== TEAM CHAT (Exclusivo) ==================== -->
-                <section class="team-chat-section">
-                    <div class="team-chat-header">
-                        <h2 class="section-title">
-                            <span class="title-icon" data-icon="chat"></span>
-                            Chat del Equipo
-                        </h2>
-                        <div class="team-chat-online">
-                            <span class="online-indicator"></span>
-                            <span id="online-count">0</span> online
+                <!-- ==================== COLUMNA IZQUIERDA ==================== -->
+                <div class="team-main-column">
+                    <!-- TEAM CHAT (Exclusivo) -->
+                    <section class="team-chat-section">
+                        <div class="team-chat-header">
+                            <h2 class="section-title">
+                                <span class="title-icon" data-icon="chat"></span>
+                                Chat del Equipo
+                            </h2>
+                            <div class="team-chat-online">
+                                <span class="online-indicator"></span>
+                                <span id="online-count">0</span> online
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- El chat se carga aquí -->
-                    <div id="team-chat-container" data-team-id={team.id} data-team-slug={slug}>
-                        <!-- Populated by TeamChat.js -->
-                    </div>
-                </section>
+                        <!-- El chat se carga aquí -->
+                        <div id="team-chat-container" data-team-id={team.id} data-team-slug={slug}>
+                            <!-- Populated by TeamChat.js -->
+                        </div>
+                    </section>
+
+                    <!-- MULTIMEDIA WIDGET -->
+                    <MultimediaWidget teamId={team.id} />
+                </div>
 
                 <!-- ==================== TEAM SIDEBAR ==================== -->
                 <aside class="team-sidebar">
